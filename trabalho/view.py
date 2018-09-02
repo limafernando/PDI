@@ -32,8 +32,12 @@ def main():
 	"""
 	
 	#banda individual
+
+	'''b = a.copy()
+
 	"""
 	b = a.copy()
+
 	b = mp.bandaIndividual(b, largura, altura, 'b')
 	imagemManipulada = mp.arrayToImagem(b)
 	mp.exibeImagem(imagemManipulada)
@@ -43,7 +47,9 @@ def main():
 	"""
 	arrayMono = mp.monocromatica(a, largura, altura)
 	imagemMono = mp.arrayToImagem(arrayMono)
-	mp.exibeImagem(imagemMono)
+
+	mp.exibeImagem(imagemMono)'''
+	#mp.exibeImagem(imagemMono)
 	"""
 	
 	#Negativo
@@ -53,6 +59,10 @@ def main():
 	mp.exibeImagem(imagemNegativa)
 	"""
 	
+	#b = a.copy()
+	b = mp.controleDeBrilhoAditivo(a, largura, altura, 50)
+	imagemManipulada = mp.arrayToImagem(b)
+	mp.exibeImagem(imagemManipulada)
 
 
 
