@@ -12,3 +12,25 @@ print(pixel1)
 print('r:', pixel1[0])
 print('g:', pixel1[1])
 print('b:', pixel1[2])'''
+
+	"""
+	Teste RGB para YIQ
+	
+	b = a.copy()
+	pixel = b[0][0]
+	pixel[0] = 0
+	pixel[1] = 100
+	pixel[2] = 0
+	
+	mp.RGBtoYIQ(b, largura, altura)
+	"""
+	
+		"""
+	b = a.copy()
+	pixel = b[0][0]
+	pixel[0] = 254
+	pixel[1] = 0
+	pixel[2] = 0
+	imagemManipulada = mp.arrayToImagem(b)
+	mp.exibeImagem(imagemManipulada)
+	"""
