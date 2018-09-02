@@ -16,8 +16,24 @@ def main():
 
 	imagem = mp.leImagem(filename)
 	mp.exibeImagem(imagem)
-	#a = np.asarray(imagem)
-
+	a = mp.imagemToArray(imagem)
+	
+	altura = len(a)
+	largura = len(a[0])
+	
+	"""
+	Teste RGB para YIQ
+	
+	b = a.copy()
+	pixel = b[0][0]
+	pixel[0] = 0
+	pixel[1] = 100
+	pixel[2] = 0
+	
+	mp.RGBtoYIQ(b, largura, altura)
+	"""
+	
+	mp.RGBtoYIQ(a, largura, altura)
 
 
 if __name__ == '__main__':
