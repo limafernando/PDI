@@ -50,10 +50,32 @@ def RGBtoYIQ(imagemRGB, largura, altura):
 	
 	return imagemYIQ
 
-<<<<<<< HEAD
+
 ##########################################################################################
-def YIQtoRGB():
-	pass
+
+def YIQtoRGB(imagemYIQ, largura, altura, a):
+	
+	imagemRGB = imagemYIQ.astype(float)
+	
+	for i in range(altura):
+		for j in range(largura):
+			imagemRGB[i][j][0] = math.ceil(1.000*imagemYIQ[i][j][0] + 0.956*imagemYIQ[i][j][1] + 0.621*imagemYIQ[i][j][2])
+			imagemRGB[i][j][1] = math.ceil(1.000*imagemYIQ[i][j][0] - 0.272*imagemYIQ[i][j][1] - 0.647*imagemYIQ[i][j][2])
+			imagemRGB[i][j][2] = math.ceil(1.000*imagemYIQ[i][j][0] - 1.106*imagemYIQ[i][j][1] + 1.703*imagemYIQ[i][j][2])
+			if imagemRGB[i][j][0] > 255:
+				imagemRGB[i][j][0] = 255
+			if imagemRGB[i][j][1] > 255:
+				imagemRGB[i][j][1] = 255
+			if imagemRGB[i][j][2] > 255:
+				imagemRGB[i][j][2] = 255
+	imagemRGB = imagemRGB.astype(int)
+	for i in range(altura):
+		for j in range(largura):
+			if imagemRGB[i][j][0] != a[i][j][0] or imagemRGB[i][j][1] != a[i][j][1] or imagemRGB[i][j][2] != a[i][j][2]:
+					print('rgb:', imagemRGB[i][j], 'imagemoriginal:', a[i][j])
+			
+	return imagemRGB
+	
 
 ##########################################################################################
 def bandaIndividual(arrayDaImagem, largura, altura, banda):
@@ -82,37 +104,6 @@ def bandaIndividual(arrayDaImagem, largura, altura, banda):
 		return arrayDaImagem
 
 ##########################################################################################
-=======
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-def YIQtoRGB(imagemYIQ, largura, altura, a):
-	
-	imagemRGB = imagemYIQ.astype(float)
-	
-	for i in range(altura):
-		for j in range(largura):
-			imagemRGB[i][j][0] = math.ceil(1.000*imagemYIQ[i][j][0] + 0.956*imagemYIQ[i][j][1] + 0.621*imagemYIQ[i][j][2])
-			imagemRGB[i][j][1] = math.ceil(1.000*imagemYIQ[i][j][0] - 0.272*imagemYIQ[i][j][1] - 0.647*imagemYIQ[i][j][2])
-			imagemRGB[i][j][2] = math.ceil(1.000*imagemYIQ[i][j][0] - 1.106*imagemYIQ[i][j][1] + 1.703*imagemYIQ[i][j][2])
-			if imagemRGB[i][j][0] > 255:
-				imagemRGB[i][j][0] = 255
-			if imagemRGB[i][j][1] > 255:
-				imagemRGB[i][j][1] = 255
-			if imagemRGB[i][j][2] > 255:
-				imagemRGB[i][j][2] = 255
-	imagemRGB = imagemRGB.astype(int)
-	for i in range(altura):
-		for j in range(largura):
-			if imagemRGB[i][j][0] != a[i][j][0] or imagemRGB[i][j][1] != a[i][j][1] or imagemRGB[i][j][2] != a[i][j][2]:
-					print('rgb:', imagemRGB[i][j], 'imagemoriginal:', a[i][j])
-			
-	return imagemRGB
-	
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-def bandaIndividual():
-	pass
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 def monocromatica(imagem, largura, altura):
 	
 	imagemMonocromatica = imagem.copy()
@@ -131,8 +122,8 @@ def monocromatica(imagem, largura, altura):
 			
 	return imagemMonocromatica
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
->>>>>>> 8bcc0074f38ea359578733d41c7908b4d3523391
+##########################################################################################
+
 def negativo():
 	pass
 
