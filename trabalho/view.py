@@ -31,34 +31,30 @@ def main():
 	mp.exibeImagem(imagem2)
 	"""
 	
-
-	#mp.RGBtoYIQ(a, largura, altura)
-
-	"""
-	b = a.copy()
-	pixel = b[0][0]
-	pixel[0] = 254
-	pixel[1] = 0
-	pixel[2] = 0
-	imagemManipulada = mp.arrayToImagem(b)
-	mp.exibeImagem(imagemManipulada)
-	"""
 	#banda individual
+	"""
 	b = a.copy()
 	b = mp.bandaIndividual(b, largura, altura, 'b')
 	imagemManipulada = mp.arrayToImagem(b)
 	mp.exibeImagem(imagemManipulada)
-
+	"""
+	
 	#Monocromatica
+	"""
 	arrayMono = mp.monocromatica(a, largura, altura)
 	imagemMono = mp.arrayToImagem(arrayMono)
 	mp.exibeImagem(imagemMono)
+	"""
 	
+	#Negativo
+	
+	arrayNegativo = mp.negativo(a, largura, altura)
+	imagemNegativa = mp.arrayToImagem(arrayNegativo)
+	mp.exibeImagem(imagemNegativa)
 	
 	
 
 
-	
 
 if __name__ == '__main__':
 	main()
