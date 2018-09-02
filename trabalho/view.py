@@ -33,7 +33,7 @@ def main():
 	mp.RGBtoYIQ(b, largura, altura)
 	"""
 	
-	mp.RGBtoYIQ(a, largura, altura)
+	#mp.RGBtoYIQ(a, largura, altura)
 
 	"""
 	b = a.copy()
@@ -44,6 +44,11 @@ def main():
 	imagemManipulada = mp.arrayToImagem(b)
 	mp.exibeImagem(imagemManipulada)
 	"""
+	#banda individual
+	b = a.copy()
+	b = mp.bandaIndividual(b, largura, altura, 'b')
+	imagemManipulada = mp.arrayToImagem(b)
+	mp.exibeImagem(imagemManipulada)
 	
 
 if __name__ == '__main__':
