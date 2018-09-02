@@ -2,18 +2,27 @@ from PIL import Image
 import numpy as np
 
 def leImagem(nomeArquivo):
-	return Image.open(arquivo)
+	#Função para ler a imagem
+	#A função open abre o arquivo só em mode de leitura
+	#Para manipular será preciso fazer uma cópia da imagem
+	return Image.open(nomeArquivo)
 
 def imagemToArray(imagem):
+	#Função para ter acesso ao array da imagem
 	return np.asarray(imagem)
 
+def arrayToImagem(array):
+	#Função para converter o array para imagem
+	return Image.fromarray(array, mode='RGB')
+
 def exibeImagem(imagem):
+	#Função para exibir imagem
 	imagem.show()
 
 def salvaImagem(nomeArquivo, imagem):
-	aux = nomeArquivo.split('.')
+	'''aux = nomeArquivo.split('.')
 	tipoArquivo = aux[1]
-	imagem.save(nomeArquivo, tipoArquivo)
+	imagem.save(nomeArquivo, tipoArquivo)'''
 
 def RGBtoYIQ():
 	pass
