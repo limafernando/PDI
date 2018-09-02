@@ -31,28 +31,35 @@ def main():
 	mp.exibeImagem(imagem2)
 	"""
 	
-
-	#mp.RGBtoYIQ(a, largura, altura)
-
+	#banda individual
+<<<<<<< HEAD
+	'''b = a.copy()
+=======
 	"""
 	b = a.copy()
-	pixel = b[0][0]
-	pixel[0] = 254
-	pixel[1] = 0
-	pixel[2] = 0
-	imagemManipulada = mp.arrayToImagem(b)
-	mp.exibeImagem(imagemManipulada)
-	"""
-	#banda individual
-	'''b = a.copy()
+>>>>>>> a3e03a315810b066e252a0b344533342251827be
 	b = mp.bandaIndividual(b, largura, altura, 'b')
 	imagemManipulada = mp.arrayToImagem(b)
 	mp.exibeImagem(imagemManipulada)
-
+	"""
+	
 	#Monocromatica
+	"""
 	arrayMono = mp.monocromatica(a, largura, altura)
 	imagemMono = mp.arrayToImagem(arrayMono)
+<<<<<<< HEAD
 	mp.exibeImagem(imagemMono)'''
+=======
+	mp.exibeImagem(imagemMono)
+	"""
+	
+	#Negativo
+	
+	arrayNegativo = mp.negativo(a, largura, altura)
+	imagemNegativa = mp.arrayToImagem(arrayNegativo)
+	mp.exibeImagem(imagemNegativa)
+	
+>>>>>>> a3e03a315810b066e252a0b344533342251827be
 	
 	#b = a.copy()
 	b = mp.controleDeBrilhoAditivo(a, largura, altura, 50)
@@ -60,7 +67,6 @@ def main():
 	mp.exibeImagem(imagemManipulada)
 
 
-	
 
 if __name__ == '__main__':
 	main()

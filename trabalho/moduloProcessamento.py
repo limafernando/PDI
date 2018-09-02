@@ -52,7 +52,6 @@ def RGBtoYIQ(imagemRGB, largura, altura):
 
 
 ##########################################################################################
-
 def YIQtoRGB(imagemYIQ, largura, altura, a):
 	
 	imagemRGB = imagemYIQ.astype(float)
@@ -124,8 +123,17 @@ def monocromatica(imagem, largura, altura):
 
 ##########################################################################################
 
-def negativo():
-	pass
+def negativo(imagem, largura, altura):
+	
+	imagemNegativa = imagem.copy()
+	
+	for i in range(altura):
+		for j in range(largura):
+			imagemNegativa[i][j][0] = 255 - imagem[i][j][0]
+			imagemNegativa[i][j][1] = 255 - imagem[i][j][1]
+			imagemNegativa[i][j][2] = 255 - imagem[i][j][2]
+	
+	return imagemNegativa
 
 ##########################################################################################
 def controleDeBrilhoAditivo(imagem, largura, altura, c):
