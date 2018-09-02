@@ -128,9 +128,85 @@ def negativo():
 	pass
 
 ##########################################################################################
-def controleDeBrilho():
-	pass
+def controleDeBrilhoAditivo(imagem, largura, altura, c):
+	imagemResultante = imagem.copy()
 
+	if type(c) != int:
+		c = int(c)
+
+	#a biblioteca pil percorre de maneira circular
+	#255+1 = 0
+	for i in range(altura):
+		for j in range(largura):
+			#somando em R
+			valor = imagemResultante[i][j][0].copy()
+			limite = valor + c
+			if limite > 255:
+				imagemResultante[i][j][0] = 255
+			elif limite < 0:
+				imagemResultante[i][j][0] = 0
+			else:
+				imagemResultante[i][j][0] += c
+
+			#somando em G
+			valor = imagemResultante[i][j][1].copy()
+			limite = valor + c
+			if limite > 255:
+				imagemResultante[i][j][1] = 255
+			elif limite < 0:
+				imagemResultante[i][j][1] = 0
+			else:
+				imagemResultante[i][j][1] += c
+
+			#somando em B
+			valor = imagemResultante[i][j][2].copy()
+			limite = valor + c
+			if limite > 255:
+				imagemResultante[i][j][2] = 255
+			elif limite < 0:
+				imagemResultante[i][j][2] = 0
+			else:
+				imagemResultante[i][j][2] += c
+
+	return imagemResultante
+
+##########################################################################################
+def controleDeBrilhoMultiplicativo(imagem, largura, altura, c):
+	imagemResultante = imagem.copy()
+	
+	if c < 0:
+		return imagemResultante
+
+	for i in range(altura):
+		for j in range(largura):
+			#multiplicando em R
+			valor = imagemResultante[i][j][0].copy()
+			limite = valor * c
+			if limite < 255:
+				imagemResultante[i][j][0] = limite
+			else:
+				imagemResultante[i][j][0] = 255
+
+			#multiplicando em G
+			valor = imagemResultante[i][j][1].copy()
+			limite = valor * c
+			if limite < 255:
+				imagemResultante[i][j][1] = limite
+			else:
+				imagemResultante[i][j][1] = 255
+
+			#multiplicando em B
+			valor = imagemResultante[i][j][2].copy()
+			limite = valor * c
+			if limite < 255:
+				imagemResultante[i][j][2] = limite
+			else:
+				imagemResultante[i][j][2] = 255
+
+			
+			#print(imagemResultante[i][j])
+	
+	return imagemResultante
 ##########################################################################################
 def convolucao():
 	pass
