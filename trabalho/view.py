@@ -47,11 +47,11 @@ def main():
 	"""
 	
 	#Negativo
-	
+	"""
 	arrayNegativo = mp.negativo(a, largura, altura)
 	imagemNegativa = mp.arrayToImagem(arrayNegativo)
 	mp.exibeImagem(imagemNegativa)
-	
+	"""
 	
 
 
