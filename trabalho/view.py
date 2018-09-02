@@ -8,11 +8,11 @@ import moduloProcessamento as mp
 def main():
 	print('escolha o arquivo')
 	
-	Tk().withdraw() #we don't want a full GUI, so keep the root window from appearing
-	filename = askopenfilename() #show an "Open" dialog box and return the path to the selected file
+	#<Para selecionar o arquivo por GUI
+	Tk().withdraw()
+	filename = askopenfilename()
 	filename=os.path.basename(filename)
-	#filename = str(filename)
-	#print(type(filename))
+	#Para selecionar o arquivo por GUI>
 
 	imagem = mp.leImagem(filename)
 	mp.exibeImagem(imagem)
@@ -35,6 +35,16 @@ def main():
 	
 	mp.RGBtoYIQ(a, largura, altura)
 
+	"""
+	b = a.copy()
+	pixel = b[0][0]
+	pixel[0] = 254
+	pixel[1] = 0
+	pixel[2] = 0
+	imagemManipulada = mp.arrayToImagem(b)
+	mp.exibeImagem(imagemManipulada)
+	"""
+	
 
 if __name__ == '__main__':
 	main()
