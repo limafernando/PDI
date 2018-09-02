@@ -21,29 +21,25 @@ def main():
 	altura = len(a)
 	largura = len(a[0])
 	
+	#RGB YIQ
 	"""
-	Teste RGB para YIQ
+	b = mp.RGBtoYIQ(a, largura, altura)
+	c = mp.YIQtoRGB(b, largura, altura, a)
+	print(np.array_equal(a,b))
 	
-	b = a.copy()
-	pixel = b[0][0]
-	pixel[0] = 0
-	pixel[1] = 100
-	pixel[2] = 0
-	
-	mp.RGBtoYIQ(b, largura, altura)
+	imagem2 = mp.arrayToImagem(c)
+	mp.exibeImagem(imagem2)
 	"""
 	
-	mp.RGBtoYIQ(a, largura, altura)
+	#Monocromatica
+	arrayMono = mp.monocromatica(a, largura, altura)
+	imagemMono = mp.arrayToImagem(arrayMono)
+	mp.exibeImagem(imagemMono)
+	
+	
+	
 
-	"""
-	b = a.copy()
-	pixel = b[0][0]
-	pixel[0] = 254
-	pixel[1] = 0
-	pixel[2] = 0
-	imagemManipulada = mp.arrayToImagem(b)
-	mp.exibeImagem(imagemManipulada)
-	"""
+
 	
 
 if __name__ == '__main__':
