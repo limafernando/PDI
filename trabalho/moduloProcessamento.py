@@ -2,6 +2,9 @@ from PIL import Image
 import numpy as np
 import math
 
+global media 
+media = np.array([[1/9,1/9,1/9],[1/9,1/9,1/9],[1/9,1/9,1/9]])
+
 ##########################################################################################
 def leImagem(caminhoArquivo):
 
@@ -217,8 +220,57 @@ def controleDeBrilhoMultiplicativo(imagem, largura, altura, c):
 	
 	return imagemResultante
 ##########################################################################################
-def convolucao():
-	pass
+def convolucao(imagem, mascara, larguraImagem, alturaImagem):
+	
+	global media
+	
+	if mascara == "media":
+		mascara = media
+	
+	
+	imagemConvolucionada = imagem.copy()
+	
+	limiteAlturaMascara = math.floor(len(mascara)/2)
+	limiteLarguraMascara = math.floor(len(mascara[0])/2)
+	
+	sinal = imagem.copy()
+	#sinal = np.array([[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]]])
+	
+	#sinal = [[],[]]
+	
+	"""for i in range(len(mascara)):
+		for j in range(len(mascara[0])):
+			sinal[i][j] = np.append(sinal[i][j], [0,0,0])
+	"""
+	
+	resultadoR = 0
+	resultadoG = 0
+	resultadoB = 0
+	
+	for i in range(limiteAlturaMascara, alturaImagem - limiteAlturaMascara):
+		for j in range(limiteLarguraMascara, larguraImagem - limiteLarguraMascara):
+			
+			contAltura = limiteAlturaMascara
+			contLargura = limiteLarguraMascara
+			
+			for m in range(len(mascara)):
+				for n in range(len(mascara[0])):
+					sinal[m][n] = imagem[i - contAltura][j - contLargura]
+					contLargura -= 1
+				contAltura -= 1
+				contLargura = limiteLarguraMascara
+				
+			for m in range(len(mascara)):
+				for n in range(len(mascara[0])):
+					resultadoR += sinal[m][n][0] * mascara[m][n]
+					resultadoG += sinal[m][n][1] * mascara[m][n]
+					resultadoB += sinal[m][n][2] * mascara[m][n]
+					
+			imagemConvolucionada[i][j][0] = resultadoR
+			imagemConvolucionada[i][j][1] = resultadoG
+			imagemConvolucionada[i][j][2] = resultadoB
+	
+	return imagemConvolucionada
 
 ##########################################################################################
 def filtroMediana():

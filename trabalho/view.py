@@ -49,12 +49,12 @@ def main():
 	"""
 	
 	#Negativo
-	
+	"""
 	arrayNegativo = mp.negativo(a, largura, altura)
 	imagemNegativa = mp.arrayToImagem(arrayNegativo)
 	mp.exibeImagem(imagemNegativa)
 	mp.salvaImagem(imagemNegativa, caminhoArquivo)
-	
+	"""
 	
 	#Brilhos
 	"""
@@ -63,6 +63,11 @@ def main():
 	imagemManipulada = mp.arrayToImagem(b)
 	mp.exibeImagem(imagemManipulada)
 	"""
+	
+	#Convolução Media
+	arrayConvolucao = mp.convolucao(a, "media", largura, altura)
+	imagemConvolucionada = mp.arrayToImagem(arrayConvolucao)
+	mp.exibeImagem(imagemConvolucionada)
 
 
 if __name__ == '__main__':
