@@ -3,13 +3,13 @@ import numpy as np
 import math
 
 ##########################################################################################
-def leImagem(nomeArquivo):
+def leImagem(caminhoArquivo):
 
 	#Função para ler a imagem
 	#A função open abre o arquivo só em mode de leitura
 	#Para manipular será preciso fazer uma cópia da imagem
 
-	return Image.open(nomeArquivo)
+	return Image.open(caminhoArquivo)
 
 
 ##########################################################################################
@@ -30,11 +30,12 @@ def exibeImagem(imagem):
 
 
 ##########################################################################################
-def salvaImagem(nomeArquivo, imagem):
-	'''aux = nomeArquivo.split('.')
+def salvaImagem(imagem, caminhoArquivo):
+	aux = caminhoArquivo.split('.')
+	caminhoArquivo = aux[0] + 'Modificado.' + aux[1]
 	tipoArquivo = aux[1]
-	imagem.save(nomeArquivo, tipoArquivo)
-	imagem.save(nomeArquivo, tipoArquivo)'''
+	imagem.save(caminhoArquivo, tipoArquivo)
+	#imagem.save(caminhoArquivo, tipoArquivo)
 	
 ##########################################################################################
 def RGBtoYIQ(imagemRGB, largura, altura):

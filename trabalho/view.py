@@ -10,11 +10,11 @@ def main():
 	
 	#<Para selecionar o arquivo por GUI
 	Tk().withdraw()
-	filename = askopenfilename()
-	filename=os.path.basename(filename)
+	caminhoArquivo = askopenfilename()
+	#caminhoArquivo=os.path.basename(caminhoArquivo) #pega só o nome, mas é importante pegar o caminho
 	#Para selecionar o arquivo por GUI>
 
-	imagem = mp.leImagem(filename)
+	imagem = mp.leImagem(caminhoArquivo)
 	mp.exibeImagem(imagem)
 	a = mp.imagemToArray(imagem)
 	
@@ -49,11 +49,12 @@ def main():
 	"""
 	
 	#Negativo
-	"""
+	
 	arrayNegativo = mp.negativo(a, largura, altura)
 	imagemNegativa = mp.arrayToImagem(arrayNegativo)
 	mp.exibeImagem(imagemNegativa)
-	"""
+	mp.salvaImagem(imagemNegativa, caminhoArquivo)
+	
 	
 	#Brilhos
 	"""
