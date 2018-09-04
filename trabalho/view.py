@@ -44,8 +44,8 @@ def main():
 		opcao = int(input('Escolha a opção: '))
 
 		if opcao == 1:
-			arrayImagemModificada = arrayImagemOriginal.copy()
-			'''pixel = arrayImagemModificada[0][0]
+			'''arrayImagemModificada = arrayImagemOriginal.copy()
+			pixel = arrayImagemModificada[0][0]
 			pixel[0] = 100
 			pixel[1] = 0
 			pixel[2] = 0
