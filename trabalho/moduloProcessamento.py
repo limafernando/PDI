@@ -32,21 +32,11 @@ def imagemToArray(imagem):
 def arrayToImagem(array):
 	#Função para converter o array para imagem
 	#return Image.fromarray(array, mode='RGB')
-	
-	'''testando o YIQ - remover dps'''
-	'''for i in range (len(array)):
-		for j in range(len(array[0])):
-			print(array[i][j])'''
+
 	im = Image.fromarray(array, mode='RGB')
-	print(im.getbands())
-	print(im.getcolors())
-	print(im.getpixel((0,0)))
-	print(im.getpixel((0,1)))
-	print(im.getpixel((0,2)))
-	print(im.getpixel((0,3)))
 	
 	return im
-	'''testando o YIQ - remover dps'''
+
 
 ##########################################################################################
 def exibeImagem(imagem):
@@ -60,13 +50,12 @@ def salvaImagem(imagem, caminhoArquivo):
 	caminhoArquivo = aux[0] + 'Modificado.' + aux[1]
 	tipoArquivo = aux[1]
 	imagem.save(caminhoArquivo, tipoArquivo)
-	#imagem.save(caminhoArquivo, tipoArquivo)
+
 	
 ##########################################################################################
 def RGBtoYIQ(imagemRGB, largura, altura):
 	#Função que converte imagens do padrão RGB para o padrão YIQ
 	
-	#imagemYIQ = imagemRGB.astype(float)
 	imagemYIQ = imagemRGB.copy()
 	imagemYIQ = imagemYIQ.astype(float)
 	
@@ -75,29 +64,20 @@ def RGBtoYIQ(imagemRGB, largura, altura):
 			imagemYIQ[i][j][0] = 0.299*imagemRGB[i][j][0] + 0.587*imagemRGB[i][j][1] + 0.114*imagemRGB[i][j][2]
 			imagemYIQ[i][j][1] = 0.596*imagemRGB[i][j][0] - 0.274*imagemRGB[i][j][1] - 0.322*imagemRGB[i][j][2]
 			imagemYIQ[i][j][2] = 0.211*imagemRGB[i][j][0] - 0.523*imagemRGB[i][j][1] + 0.312*imagemRGB[i][j][2]
-			#print(imagemYIQ[i][j])
 	
 	return imagemYIQ
 
 
 ##########################################################################################
-#def YIQtoRGB(imagemYIQ, largura, altura):
-def YIQtoRGB(imagemYIQ, largura, altura):
-	"""
-	for i in range(altura):
-		for j in range(largura):
-			print('imagemoriginal:', a[i][j])
-	"""					
+def YIQtoRGB(imagemYIQ, largura, altura):			
 	
 	imagemRGB = imagemYIQ.astype(int)
-	#imagemRGB = imagemYIQ
-	#imagemRGB = imagemRGB.astype(int)
+	
 	
 	for i in range(altura):
 		for j in range(largura):
 			
 			valor = int(1.000*imagemYIQ[i][j][0] + 0.956*imagemYIQ[i][j][1] + 0.621*imagemYIQ[i][j][2])
-			#print(valor)
 			if valor > 255:
 				imagemRGB[i][j][0] = 255
 			elif valor < 0:
@@ -123,26 +103,12 @@ def YIQtoRGB(imagemYIQ, largura, altura):
 			else:
 				imagemRGB[i][j][2] = valor
 
-			#print(imagemRGB[i][j])
-			#print('YIQ',type(imagemYIQ[i][j][0]))
 				
-
-	#imagemRGB = imagemRGB.astype(int)
 	
-	"""for i in range(altura):
-		for j in range(largura):
-			print('depois:', a[i][j])"""
+	imagemRGB = np.uint8(imagemRGB)
+	print("Tipo" ,imagemRGB.dtype)
 			
-	#print(imagemRGB)
 	
-	"""
-	for i in range(altura):
-		for j in range(largura):
-			if imagemRGB[i][j][0] != a[i][j][0] or imagemRGB[i][j][1] != a[i][j][1] or imagemRGB[i][j][2] != a[i][j][2]:
-					print('rgb:', imagemRGB[i][j], 'imagemoriginal:', a[i][j])
-"""
-	#im = arrayToImagem(imagemRGB)
-	#exibeImagem(im)
 	return imagemRGB
 	
 
@@ -295,8 +261,6 @@ def controleDeBrilhoMultiplicativo(imagem, largura, altura, c):
 			else:
 				imagemResultante[i][j][2] = 255
 
-			
-			#print(imagemResultante[i][j])
 	
 	return imagemResultante
 
@@ -312,7 +276,6 @@ def convolucao(imagem, larguraImagem, alturaImagem, mascara):
 	elif mascara == "sobelVertical":
 		mascara = sobelVertical
 		
-		#print(mascara)
 		
 		aux = mascara[0].copy()
 		mascara[0] = mascara[2].copy()
@@ -326,8 +289,7 @@ def convolucao(imagem, larguraImagem, alturaImagem, mascara):
 	
 	elif mascara == "sobelHorizontal":
 		mascara = sobelHorizontal
-					
-		#print(mascara)
+
 		
 		aux = mascara[0].copy()
 		mascara[0] = mascara[2].copy()
@@ -339,7 +301,6 @@ def convolucao(imagem, larguraImagem, alturaImagem, mascara):
 			mascara[i][0] = mascara[i][2].copy()
 			mascara[i][2] = aux.copy()
 	
-	#print(mascara)
 							
 	imagemConvolucionada = imagem.copy()
 	
@@ -347,14 +308,7 @@ def convolucao(imagem, larguraImagem, alturaImagem, mascara):
 	limiteLarguraMascara = math.floor(len(mascara[0])/2)
 
 	sinal = mascara.copy()
-	#sinal = np.array([[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]]])
-	
-	#sinal = [[],[]]
-	
-	"""for i in range(len(mascara)):
-		for j in range(len(mascara[0])):
-			sinal[i][j] = np.append(sinal[i][j], [0,0,0])
-	"""
+
 
 	sinal = np.zeros((len(mascara), len(mascara[0]), 3), dtype = int)
 
@@ -372,7 +326,6 @@ def convolucao(imagem, larguraImagem, alturaImagem, mascara):
 			for m in range(len(mascara)):
 				for n in range(len(mascara[0])):
 					sinal[m][n] = imagem[i - contAltura][j - contLargura]
-					#print(sinal[m][n])
 					contLargura -= 1
 				contAltura -= 1
 				contLargura = limiteLarguraMascara
@@ -532,24 +485,3 @@ def limiarizacao(imagem, largura, altura, limiar, banda):
 	else:
 		return imagemLimiarizada
 
-
-
-	'''for i in range(altura):
-		for j in range(largura):
-			
-			menor = imagem[i][j][0]
-			if imagem[i][j][1] < menor:
-				menor = imagem[i][j][1]
-			if imagem[i][j][2] < menor:
-				menor = imagem[i][j][2]
-			
-			if menor <= limiar:
-				imagemLimiarizada[i][j][0] = 0
-				imagemLimiarizada[i][j][1] = 0
-				imagemLimiarizada[i][j][2] = 0
-			else:
-				imagemLimiarizada[i][j][0] = 255
-				imagemLimiarizada[i][j][1] = 255
-				imagemLimiarizada[i][j][2] = 255
-	
-	return imagemLimiarizada'''

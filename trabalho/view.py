@@ -2,6 +2,7 @@ import os
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
 import numpy as np
+from PIL import Image
 
 import moduloProcessamento as mp
 
@@ -31,7 +32,7 @@ def main():
 		print('2 - Converter para RGB')
 		print('3 - Imagem com banda individual colorida')
 		print('4 - Imagem com banda individual monocromática')
-		print('5 - Imagem nagativa')
+		print('5 - Imagem negativa')
 		print('6 - Controle de brilho aditivo')
 		print('7 - Controle de brilho multiplicativo')
 		print('8 - Convolução mxn')
@@ -53,6 +54,7 @@ def main():
 			arrayImagemModificada = mp.RGBtoYIQ(arrayImagemOriginal, largura, altura)
 			'''pixel = arrayImagemModificada[0][0]
 			print(pixel)'''
+			
 			#imagemModificada = mp.arrayToImagem(arrayImagemModificada)
 			#mp.exibeImagem(imagemModificada)
 
@@ -61,12 +63,13 @@ def main():
 			#print(pixel)
 
 			arrayImagemModificada = mp.YIQtoRGB(arrayImagemModificada, largura, altura)
-
+	
 			#pixel = arrayImagemModificada[0][0]
 			#print(pixel)
 
 			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
-			print(arrayImagemModificada[0][0])
+
+			#print(arrayImagemModificada[0][0])
 			mp.exibeImagem(imagemModificada)
 		
 		elif opcao == 3:
