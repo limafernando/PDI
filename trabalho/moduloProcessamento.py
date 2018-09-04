@@ -320,8 +320,7 @@ def convolucao(imagem, mascara, larguraImagem, alturaImagem):
 	
 	limiteAlturaMascara = math.floor(len(mascara)/2)
 	limiteLarguraMascara = math.floor(len(mascara[0])/2)
-	
-<<<<<<< HEAD
+
 	sinal = mascara.copy()
 	#sinal = np.array([[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]]])
 	
@@ -331,9 +330,9 @@ def convolucao(imagem, mascara, larguraImagem, alturaImagem):
 		for j in range(len(mascara[0])):
 			sinal[i][j] = np.append(sinal[i][j], [0,0,0])
 	"""
-=======
+
 	sinal = np.zeros((len(mascara), len(mascara[0]), 3), dtype = int)
->>>>>>> d0da014a101db7ad4af7d8990dedbd849a2949d0
+
 	
 	resultadoR = 0
 	resultadoG = 0
