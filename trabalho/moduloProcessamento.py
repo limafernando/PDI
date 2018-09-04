@@ -58,12 +58,13 @@ def RGBtoYIQ(imagemRGB, largura, altura):
 			imagemYIQ[i][j][0] = 0.299*imagemRGB[i][j][0] + 0.587*imagemRGB[i][j][1] + 0.114*imagemRGB[i][j][2]
 			imagemYIQ[i][j][1] = 0.596*imagemRGB[i][j][0] - 0.274*imagemRGB[i][j][1] - 0.322*imagemRGB[i][j][2]
 			imagemYIQ[i][j][2] = 0.211*imagemRGB[i][j][0] - 0.523*imagemRGB[i][j][1] + 0.312*imagemRGB[i][j][2]
+			#print(imagemYIQ[i][j])
 	
 	return imagemYIQ
 
 
 ##########################################################################################
-def YIQtoRGB(imagemYIQ, largura, altura, a):
+def YIQtoRGB(imagemYIQ, largura, altura):
 	
 	"""
 	for i in range(altura):
@@ -76,8 +77,8 @@ def YIQtoRGB(imagemYIQ, largura, altura, a):
 	for i in range(altura):
 		for j in range(largura):
 			
-			valor = 1.000*imagemYIQ[i][j][0] + 0.956*imagemYIQ[i][j][1] + 0.621*imagemYIQ[i][j][2]
-			
+			valor = int(1.000*imagemYIQ[i][j][0] + 0.956*imagemYIQ[i][j][1] + 0.621*imagemYIQ[i][j][2])
+			#print(valor)
 			if valor > 255:
 				imagemRGB[i][j][0] = 255
 			elif valor < 0:
@@ -85,7 +86,7 @@ def YIQtoRGB(imagemYIQ, largura, altura, a):
 			else:
 				imagemRGB[i][j][0] = valor
 				
-			valor = 1.000*imagemYIQ[i][j][0] - 0.272*imagemYIQ[i][j][1] - 0.647*imagemYIQ[i][j][2]
+			valor = int(1.000*imagemYIQ[i][j][0] - 0.272*imagemYIQ[i][j][1] - 0.647*imagemYIQ[i][j][2])
 			
 			if valor > 255:
 				imagemRGB[i][j][1] = 255
@@ -94,7 +95,7 @@ def YIQtoRGB(imagemYIQ, largura, altura, a):
 			else:
 				imagemRGB[i][j][1] = valor
 				
-			valor = 1.000*imagemYIQ[i][j][0] - 1.106*imagemYIQ[i][j][1] + 1.703*imagemYIQ[i][j][2]
+			valor = int(1.000*imagemYIQ[i][j][0] - 1.106*imagemYIQ[i][j][1] + 1.703*imagemYIQ[i][j][2])
 				
 			if valor > 255:
 				imagemRGB[i][j][2] = 255
@@ -102,6 +103,9 @@ def YIQtoRGB(imagemYIQ, largura, altura, a):
 				imagemRGB[i][j][2] = 0
 			else:
 				imagemRGB[i][j][2] = valor
+
+			#print(imagemRGB[i][j])
+			#print('YIQ',type(imagemYIQ[i][j][0]))
 				
 
 	#imagemRGB = imagemRGB.astype(int)
@@ -118,12 +122,14 @@ def YIQtoRGB(imagemYIQ, largura, altura, a):
 			if imagemRGB[i][j][0] != a[i][j][0] or imagemRGB[i][j][1] != a[i][j][1] or imagemRGB[i][j][2] != a[i][j][2]:
 					print('rgb:', imagemRGB[i][j], 'imagemoriginal:', a[i][j])
 """
-	
+	#im = arrayToImagem(imagemRGB)
+	#exibeImagem(im)
 	return imagemRGB
 	
 
 ##########################################################################################
 def bandaIndividual(arrayDaImagem, largura, altura, banda):
+	arrayDaImagem = arrayDaImagem.copy()
 	if banda is 'r' or banda is 'R':
 		for i in range(altura):
 			for j in range(largura):
@@ -276,7 +282,7 @@ def controleDeBrilhoMultiplicativo(imagem, largura, altura, c):
 	return imagemResultante
 
 ##########################################################################################
-def convolucao(imagem, mascara, larguraImagem, alturaImagem):
+def convolucao(imagem, larguraImagem, alturaImagem, mascara):
 	
 	global media, sobelVertical, sobelHorizontal
 	
@@ -287,7 +293,7 @@ def convolucao(imagem, mascara, larguraImagem, alturaImagem):
 	elif mascara == "sobelVertical":
 		mascara = sobelVertical
 		
-		print(mascara)
+		#print(mascara)
 		
 		aux = mascara[0].copy()
 		mascara[0] = mascara[2].copy()
@@ -302,7 +308,7 @@ def convolucao(imagem, mascara, larguraImagem, alturaImagem):
 	elif mascara == "sobelHorizontal":
 		mascara = sobelHorizontal
 					
-		print(mascara)
+		#print(mascara)
 		
 		aux = mascara[0].copy()
 		mascara[0] = mascara[2].copy()
@@ -314,7 +320,7 @@ def convolucao(imagem, mascara, larguraImagem, alturaImagem):
 			mascara[i][0] = mascara[i][2].copy()
 			mascara[i][2] = aux.copy()
 	
-	print(mascara)
+	#print(mascara)
 							
 	imagemConvolucionada = imagem.copy()
 	

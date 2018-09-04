@@ -6,118 +6,126 @@ import numpy as np
 import moduloProcessamento as mp
 
 def main():
-	print('escolha o arquivo')
+	print('Escolha a imagem!')
 	
 	#<Para selecionar o arquivo por GUI
 	Tk().withdraw()
-	caminhoArquivo = askopenfilename()
+	caminhoArquivoOriginal = askopenfilename()
 	#caminhoArquivo=os.path.basename(caminhoArquivo) #pega só o nome, mas é importante pegar o caminho
 	#Para selecionar o arquivo por GUI>
 
-	imagem = mp.leImagem(caminhoArquivo)
-	mp.exibeImagem(imagem)
-	a = mp.imagemToArray(imagem)
+	imagemOriginal = mp.leImagem(caminhoArquivoOriginal)
+	mp.exibeImagem(imagemOriginal)
+	arrayImagemOriginal = mp.imagemToArray(imagemOriginal)
 	
-	altura = len(a)
-	largura = len(a[0])
-	
-	#RGB YIQ
-	"""
-	b = a.copy()
-	pixel = b[0][0]
-	pixel[0] = 0
-	pixel[1] = 0
-	pixel[2] = 0
-	print(pixel)
-	"""
-	
-	
-	b = mp.RGBtoYIQ(a, largura, altura)
-	#pixel = b[0][0]
-	#print(pixel)
-	c = mp.YIQtoRGB(b, largura, altura, a)
-	print(a)
-	print(c)
-	
-	
-	"""
-	for i in range(largura):
-		for j in range(altura):
-			print(c[i][j])
-	"""
-	
-	#pixel = b[0][0]
-	#print(pixel)
-	#print(np.array_equal(a,b))
-	
-	
-	#imagem2 = mp.arrayToImagem(mp.YIQtoRGB(mp.RGBtoYIQ(a, largura, altura), largura, altura, a))
-	imagem2 = mp.arrayToImagem(c.copy())
-	mp.exibeImagem(imagem2)
-	#NÃO FAZE SENTIDOOOOOOOO
-	
-	
-	#banda individual
-	"""
-	b = a.copy()
+	altura = len(arrayImagemOriginal)
+	largura = len(arrayImagemOriginal[0])
 
-	b = mp.bandaIndividual(b, largura, altura, 'b')
-	imagemManipulada = mp.arrayToImagem(b)
-	mp.exibeImagem(imagemManipulada)
-	"""
-	
-	#Monocromatica
-	"""
-	arrayMono = mp.monocromatica(a, largura, altura, 'r')
-	imagemMono = mp.arrayToImagem(arrayMono)
+	imagemModificada = None
+	arrayImagemModificada = None
 
-	mp.exibeImagem(imagemMono)
-	arrayMono = mp.monocromatica(a, largura, altura, 'g')
-	imagemMono = mp.arrayToImagem(arrayMono)
+	run = True
 
-	mp.exibeImagem(imagemMono)
-	arrayMono = mp.monocromatica(a, largura, altura, 'b')
-	imagemMono = mp.arrayToImagem(arrayMono)
+	while run:
+		print('\t\t\t\tMenu\n')
+		print('1 - Converter para YIQ')
+		print('2 - Converter para RGB')
+		print('3 - Imagem com banda individual colorida')
+		print('4 - Imagem com banda individual monocromática')
+		print('5 - Imagem nagativa')
+		print('6 - Controle de brilho aditivo')
+		print('7 - Controle de brilho multiplicativo')
+		print('8 - Convolução mxn')
+		print('9 - Filtro mediana')
+		print('10 - Limiarização')
+		print('11 - Salvar a imagem modificada')
+		print('12 - Encerrar programa')
 
-	mp.exibeImagem(imagemMono)
-	"""
-	
-	#Negativo
-	"""
-	arrayNegativo = mp.negativo(a, largura, altura)
-	imagemNegativa = mp.arrayToImagem(arrayNegativo)
-	mp.exibeImagem(imagemNegativa)
-	mp.salvaImagem(imagemNegativa, caminhoArquivo)
-	"""
-	
-	#Brilhos
-	"""
-	b = a.copy()
-	b = mp.controleDeBrilhoAditivo(a, largura, altura, 50)
-	imagemManipulada = mp.arrayToImagem(b)
-	mp.exibeImagem(imagemManipulada)
-	"""
-	
-	#Convolução Media
-	"""
-	arrayConvolucao = mp.convolucao(a, "sobelHorizontal", largura, altura)
-	imagemConvolucionada = mp.arrayToImagem(arrayConvolucao)
-	mp.exibeImagem(imagemConvolucionada)
-	"""
-	
-	#Filtro Mediana
-	"""
-	arrayMediana = mp.filtroMediana(a, largura, altura, 3, 3)
-	imagemFiltrada = mp.arrayToImagem(arrayMediana)
-	mp.exibeImagem(imagemFiltrada)
-	"""
-	
-	#Limiarização
-	"""
-	arrayLimiarizacao = mp.limiarizacao(a, largura, altura, 100)
-	imagemLimiarizada = mp.arrayToImagem(arrayLimiarizacao)
-	mp.exibeImagem(imagemLimiarizada)
-	"""
+		opcao = int(input('Escolha a opção: '))
+
+		if opcao == 1:
+			arrayImagemModificada = arrayImagemOriginal.copy()
+			'''pixel = arrayImagemModificada[0][0]
+			pixel[0] = 100
+			pixel[1] = 0
+			pixel[2] = 0
+			print(pixel)'''
+
+			arrayImagemModificada = mp.RGBtoYIQ(arrayImagemModificada, largura, altura)
+			'''pixel = arrayImagemModificada[0][0]
+			print(pixel)'''
+			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
+			mp.exibeImagem(imagemModificada)
+
+		elif opcao == 2:
+			pixel = arrayImagemModificada[0][0]
+			#print(pixel)
+
+			arrayImagemModificada = mp.YIQtoRGB(arrayImagemModificada, largura, altura)
+
+			#pixel = arrayImagemModificada[0][0]
+			#print(pixel)
+
+			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
+			mp.exibeImagem(imagemModificada)
+		
+		elif opcao == 3:
+			banda = input('Para qual banda? ')
+			arrayImagemModificada = mp.bandaIndividual(arrayImagemOriginal, largura, altura, banda)
+			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
+			mp.exibeImagem(imagemModificada)
+		
+		elif opcao == 4:
+			banda = input('Para qual banda? ')
+			arrayImagemModificada = mp.monocromatica(arrayImagemOriginal, largura, altura, banda)
+			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
+			mp.exibeImagem(imagemModificada)
+		
+		elif opcao == 5:
+			arrayImagemModificada = mp.negativo(arrayImagemOriginal, largura, altura)
+			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
+			mp.exibeImagem(imagemModificada)
+
+		elif opcao == 6:
+			fator = int(input('Qual o fator de adição? '))
+			arrayImagemModificada = mp.controleDeBrilhoAditivo(arrayImagemOriginal, largura, altura, fator)
+			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
+			mp.exibeImagem(imagemModificada)
+
+		elif opcao == 7:
+			fator = float(input('Qual o fator de multiplicação? '))
+			arrayImagemModificada = mp.controleDeBrilhoMultiplicativo(arrayImagemOriginal, largura, altura, fator)
+			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
+			mp.exibeImagem(imagemModificada)
+
+		elif opcao == 8:
+			mascara = input('Qual é a máscara? ')
+			arrayImagemModificada = mp.convolucao(arrayImagemOriginal, largura, altura, mascara)
+			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
+			mp.exibeImagem(imagemModificada)
+
+		elif opcao == 9:
+			m = int(input('Qual é a qtd de linhas? '))
+			m = int(input('Qual é a qtd de colunas? '))
+			arrayImagemModificada = mp.filtroMediana(arrayImagemOriginal, largura, altura, m, n)
+			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
+			mp.exibeImagem(imagemModificada)
+
+		elif opcao == 10:
+			limiar = int(input('Qual é o limiar? '))
+			arrayImagemModificada = mp.limiarizacao(arrayImagemOriginal, largura, altura, m, n)
+			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
+			mp.exibeImagem(imagemModificada)
+
+		elif opcao == 11:
+			print('Salvando...')
+			mp.salvaImagem(imagemModificada, caminhoArquivoOriginal)
+		elif opcao == 12:
+			print('Encerrando...')
+			run = False
+		else:
+			print('Opção inválida!')
+
 
 
 
