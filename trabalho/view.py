@@ -84,10 +84,13 @@ def main():
 			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
 			mp.exibeImagem(imagemModificada)
 		
-		elif opcao == 5:
-			arrayImagemModificada = mp.negativo(arrayImagemOriginal, largura, altura)
+		elif opcao == 5: #Negativo
+			arrayImagemModificada = mp.negativoRGB(arrayImagemOriginal, largura, altura)
 			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
 			mp.exibeImagem(imagemModificada)
+			arrayImagemModificada1 = mp.negativoYIQ(arrayImagemModificada, largura, altura)
+			imagemModificada1 = mp.arrayToImagem(arrayImagemModificada1)
+			mp.exibeImagem(imagemModificada1)
 
 		elif opcao == 6:
 			fator = int(input('Qual o fator de adição? '))
