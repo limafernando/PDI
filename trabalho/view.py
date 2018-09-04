@@ -36,6 +36,8 @@ def main():
 	#pixel = b[0][0]
 	#print(pixel)
 	c = mp.YIQtoRGB(b, largura, altura, a)
+	print(a)
+	print(c)
 	
 	
 	"""
@@ -50,8 +52,9 @@ def main():
 	
 	
 	#imagem2 = mp.arrayToImagem(mp.YIQtoRGB(mp.RGBtoYIQ(a, largura, altura), largura, altura, a))
-	imagem2 = mp.arrayToImagem(c)
+	imagem2 = mp.arrayToImagem(c.copy())
 	mp.exibeImagem(imagem2)
+	#NÃO FAZE SENTIDOOOOOOOO
 	
 	
 	#banda individual
