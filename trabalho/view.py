@@ -8,11 +8,10 @@ import moduloProcessamento as mp
 def main():
 	print('Escolha a imagem!')
 	
-	#<Para selecionar o arquivo por GUI
+	#Para selecionar o arquivo por GUI#
 	Tk().withdraw()
 	caminhoArquivoOriginal = askopenfilename()
-	#caminhoArquivo=os.path.basename(caminhoArquivo) #pega só o nome, mas é importante pegar o caminho
-	#Para selecionar o arquivo por GUI>
+	#Para selecionar o arquivo por GUI#
 
 	imagemOriginal = mp.leImagem(caminhoArquivoOriginal)
 	mp.exibeImagem(imagemOriginal)
@@ -51,11 +50,11 @@ def main():
 			pixel[2] = 0
 			print(pixel)'''
 
-			arrayImagemModificada = mp.RGBtoYIQ(arrayImagemModificada, largura, altura)
+			arrayImagemModificada = mp.RGBtoYIQ(arrayImagemOriginal, largura, altura)
 			'''pixel = arrayImagemModificada[0][0]
 			print(pixel)'''
-			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
-			mp.exibeImagem(imagemModificada)
+			#imagemModificada = mp.arrayToImagem(arrayImagemModificada)
+			#mp.exibeImagem(imagemModificada)
 
 		elif opcao == 2:
 			pixel = arrayImagemModificada[0][0]
@@ -67,6 +66,7 @@ def main():
 			#print(pixel)
 
 			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
+			print(arrayImagemModificada[0][0])
 			mp.exibeImagem(imagemModificada)
 		
 		elif opcao == 3:
@@ -113,7 +113,8 @@ def main():
 
 		elif opcao == 10:
 			limiar = int(input('Qual é o limiar? '))
-			arrayImagemModificada = mp.limiarizacao(arrayImagemOriginal, largura, altura, m, n)
+			banda = input('Para qual banda? ')
+			arrayImagemModificada = mp.limiarizacao(arrayImagemOriginal, largura, altura, limiar, banda)
 			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
 			mp.exibeImagem(imagemModificada)
 
@@ -126,8 +127,7 @@ def main():
 		else:
 			print('Opção inválida!')
 
-
-
+#############################################################################
 
 if __name__ == '__main__':
 	main()

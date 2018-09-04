@@ -31,7 +31,22 @@ def imagemToArray(imagem):
 ##########################################################################################
 def arrayToImagem(array):
 	#Função para converter o array para imagem
-	return Image.fromarray(array, mode='RGB')
+	#return Image.fromarray(array, mode='RGB')
+	
+	'''testando o YIQ - remover dps'''
+	'''for i in range (len(array)):
+		for j in range(len(array[0])):
+			print(array[i][j])'''
+	im = Image.fromarray(array, mode='RGB')
+	print(im.getbands())
+	print(im.getcolors())
+	print(im.getpixel((0,0)))
+	print(im.getpixel((0,1)))
+	print(im.getpixel((0,2)))
+	print(im.getpixel((0,3)))
+	
+	return im
+	'''testando o YIQ - remover dps'''
 
 ##########################################################################################
 def exibeImagem(imagem):
@@ -51,7 +66,9 @@ def salvaImagem(imagem, caminhoArquivo):
 def RGBtoYIQ(imagemRGB, largura, altura):
 	#Função que converte imagens do padrão RGB para o padrão YIQ
 	
-	imagemYIQ = imagemRGB.astype(float)
+	#imagemYIQ = imagemRGB.astype(float)
+	imagemYIQ = imagemRGB.copy()
+	imagemYIQ = imagemYIQ.astype(float)
 	
 	for i in range(altura):
 		for j in range(largura):
@@ -64,8 +81,8 @@ def RGBtoYIQ(imagemRGB, largura, altura):
 
 
 ##########################################################################################
+#def YIQtoRGB(imagemYIQ, largura, altura):
 def YIQtoRGB(imagemYIQ, largura, altura):
-	
 	"""
 	for i in range(altura):
 		for j in range(largura):
@@ -73,6 +90,8 @@ def YIQtoRGB(imagemYIQ, largura, altura):
 	"""					
 	
 	imagemRGB = imagemYIQ.astype(int)
+	#imagemRGB = imagemYIQ
+	#imagemRGB = imagemRGB.astype(int)
 	
 	for i in range(altura):
 		for j in range(largura):
@@ -464,11 +483,58 @@ def filtroMediana(imagem, larguraImagem, alturaImagem, m, n):
 	return imagemFiltrada
 
 ##########################################################################################
-def limiarizacao(imagem, largura, altura, limiar):
+def limiarizacao(imagem, largura, altura, limiar, banda):
 	
 	imagemLimiarizada = imagem.copy()
 	
-	for i in range(altura):
+	if banda is 'r' or banda is 'R':
+		for i in range(altura):
+			for j in range(largura):
+				if imagemLimiarizada[i][j][0] <= limiar:
+					imagemLimiarizada[i][j][0] = 0
+					imagemLimiarizada[i][j][1] = 0
+					imagemLimiarizada[i][j][2] = 0
+				else:
+					imagemLimiarizada[i][j][0] = 255
+					imagemLimiarizada[i][j][1] = 255
+					imagemLimiarizada[i][j][2] = 255
+				
+		return imagemLimiarizada
+	
+	elif banda is 'g' or banda is 'G':
+		for i in range(altura):
+			for j in range(largura):
+				if imagemLimiarizada[i][j][1] <= limiar:
+					imagemLimiarizada[i][j][0] = 0
+					imagemLimiarizada[i][j][1] = 0
+					imagemLimiarizada[i][j][2] = 0
+				else:
+					imagemLimiarizada[i][j][0] = 255
+					imagemLimiarizada[i][j][1] = 255
+					imagemLimiarizada[i][j][2] = 255
+
+		return imagemLimiarizada
+	
+	elif banda is 'b' or banda is 'B':
+		for i in range(altura):
+			for j in range(largura):
+				if imagemLimiarizada[i][j][2] <= limiar:
+					imagemLimiarizada[i][j][0] = 0
+					imagemLimiarizada[i][j][1] = 0
+					imagemLimiarizada[i][j][2] = 0
+				else:
+					imagemLimiarizada[i][j][0] = 255
+					imagemLimiarizada[i][j][1] = 255
+					imagemLimiarizada[i][j][2] = 255
+				
+		return imagemLimiarizada
+	
+	else:
+		return imagemLimiarizada
+
+
+
+	'''for i in range(altura):
 		for j in range(largura):
 			
 			menor = imagem[i][j][0]
@@ -486,4 +552,4 @@ def limiarizacao(imagem, largura, altura, limiar):
 				imagemLimiarizada[i][j][1] = 255
 				imagemLimiarizada[i][j][2] = 255
 	
-	return imagemLimiarizada
+	return imagemLimiarizada'''
