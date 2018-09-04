@@ -4,6 +4,13 @@ import math
 
 global media 
 media = np.array([[1/9,1/9,1/9],[1/9,1/9,1/9],[1/9,1/9,1/9]])
+#media = np.array([[1/49,1/49,1/49,1/49,1/49,1/49,1/49],[1/49,1/49,1/49,1/49,1/49,1/49,1/49],[1/49,1/49,1/49,1/49,1/49,1/49,1/49],[1/49,1/49,1/49,1/49,1/49,1/49,1/49],[1/49,1/49,1/49,1/49,1/49,1/49,1/49],[1/49,1/49,1/49,1/49,1/49,1/49,1/49],[1/49,1/49,1/49,1/49,1/49,1/49,1/49]])
+#media = np.array([[1/21,1/21,1/21],[1/21,1/21,1/21],[1/21,1/21,1/21],[1/21,1/21,1/21],[1/21,1/21,1/21],[1/21,1/21,1/21],[1/21,1/21,1/21]])
+
+global sobelVertical
+sobelVertical = np.array([[1,2,1],[0,0,0],[-1,-2,-1]]) #Detecta bordas horizontais
+global sobelHorizontal
+sobelHorizontal = np.array([[1,0,-1], [2,0,-2], [1,0,-1]])#Detecta bordas verticais 
 
 ##########################################################################################
 def leImagem(caminhoArquivo):
@@ -58,25 +65,60 @@ def RGBtoYIQ(imagemRGB, largura, altura):
 ##########################################################################################
 def YIQtoRGB(imagemYIQ, largura, altura, a):
 	
-	imagemRGB = imagemYIQ.astype(float)
+	"""
+	for i in range(altura):
+		for j in range(largura):
+			print('imagemoriginal:', a[i][j])
+	"""					
+	
+	imagemRGB = imagemYIQ.astype(int)
 	
 	for i in range(altura):
 		for j in range(largura):
-			imagemRGB[i][j][0] = math.ceil(1.000*imagemYIQ[i][j][0] + 0.956*imagemYIQ[i][j][1] + 0.621*imagemYIQ[i][j][2])
-			imagemRGB[i][j][1] = math.ceil(1.000*imagemYIQ[i][j][0] - 0.272*imagemYIQ[i][j][1] - 0.647*imagemYIQ[i][j][2])
-			imagemRGB[i][j][2] = math.ceil(1.000*imagemYIQ[i][j][0] - 1.106*imagemYIQ[i][j][1] + 1.703*imagemYIQ[i][j][2])
-			if imagemRGB[i][j][0] > 255:
+			
+			valor = 1.000*imagemYIQ[i][j][0] + 0.956*imagemYIQ[i][j][1] + 0.621*imagemYIQ[i][j][2]
+			
+			if valor > 255:
 				imagemRGB[i][j][0] = 255
-			if imagemRGB[i][j][1] > 255:
+			elif valor < 0:
+				imagemRGB[i][j][0] = 0
+			else:
+				imagemRGB[i][j][0] = valor
+				
+			valor = 1.000*imagemYIQ[i][j][0] - 0.272*imagemYIQ[i][j][1] - 0.647*imagemYIQ[i][j][2]
+			
+			if valor > 255:
 				imagemRGB[i][j][1] = 255
-			if imagemRGB[i][j][2] > 255:
+			elif valor < 0:
+				imagemRGB[i][j][1] = 0
+			else:
+				imagemRGB[i][j][1] = valor
+				
+			valor = 1.000*imagemYIQ[i][j][0] - 1.106*imagemYIQ[i][j][1] + 1.703*imagemYIQ[i][j][2]
+				
+			if valor > 255:
 				imagemRGB[i][j][2] = 255
-	imagemRGB = imagemRGB.astype(int)
+			elif valor < 0:
+				imagemRGB[i][j][2] = 0
+			else:
+				imagemRGB[i][j][2] = valor
+				
+
+	#imagemRGB = imagemRGB.astype(int)
+	
+	"""for i in range(altura):
+		for j in range(largura):
+			print('depois:', a[i][j])"""
+			
+	#print(imagemRGB)
+	
+	"""
 	for i in range(altura):
 		for j in range(largura):
 			if imagemRGB[i][j][0] != a[i][j][0] or imagemRGB[i][j][1] != a[i][j][1] or imagemRGB[i][j][2] != a[i][j][2]:
 					print('rgb:', imagemRGB[i][j], 'imagemoriginal:', a[i][j])
-			
+"""
+	
 	return imagemRGB
 	
 
@@ -107,23 +149,36 @@ def bandaIndividual(arrayDaImagem, largura, altura, banda):
 		return arrayDaImagem
 
 ##########################################################################################
-def monocromatica(imagem, largura, altura):
+def monocromatica(imagem, largura, altura, banda):
 	
 	imagemMonocromatica = imagem.copy()
 	
-	for i in range(altura):
-		for j in range(largura):
-			menor = imagem[i][j][0]
-			if imagem[i][j][1] < menor:
-				menor = imagem[i][j][1]
-			if imagem[i][j][2] < menor:
-				menor = imagem[i][j][2]
-			
-			imagemMonocromatica[i][j][0] = menor
-			imagemMonocromatica[i][j][1] = menor
-			imagemMonocromatica[i][j][2] = menor
-			
-	return imagemMonocromatica
+	if banda is 'r' or banda is 'R':
+		for i in range(altura):
+			for j in range(largura):
+				imagemMonocromatica[i][j][1] = imagem[i][j][0]
+				imagemMonocromatica[i][j][2] = imagem[i][j][0]
+				
+		return imagemMonocromatica
+		
+	elif banda is 'g' or banda is 'G':
+		for i in range(altura):
+			for j in range(largura):
+				imagemMonocromatica[i][j][0] = imagem[i][j][1]
+				imagemMonocromatica[i][j][2] = imagem[i][j][1]
+				
+		return imagemMonocromatica
+
+	elif banda is 'b' or banda is 'B':
+		for i in range(altura):
+			for j in range(largura):
+				imagemMonocromatica[i][j][0] = imagem[i][j][2]
+				imagemMonocromatica[i][j][1] = imagem[i][j][2]
+				
+		return imagemMonocromatica
+	
+	else:
+		return imagemMonocromatica
 
 ##########################################################################################
 
@@ -219,29 +274,54 @@ def controleDeBrilhoMultiplicativo(imagem, largura, altura, c):
 			#print(imagemResultante[i][j])
 	
 	return imagemResultante
+
 ##########################################################################################
 def convolucao(imagem, mascara, larguraImagem, alturaImagem):
 	
-	global media
+	global media, sobelVertical, sobelHorizontal
 	
+							
 	if mascara == "media":
 		mascara = media
+							
+	elif mascara == "sobelVertical":
+		mascara = sobelVertical
+		
+		print(mascara)
+		
+		aux = mascara[0].copy()
+		mascara[0] = mascara[2].copy()
+		mascara[2] = aux.copy()
+		
+							
+		for i in range(0,len(mascara)):
+			aux = mascara[i][0].copy()
+			mascara[i][0] = mascara[i][2].copy()
+			mascara[i][2] = aux.copy()
 	
+	elif mascara == "sobelHorizontal":
+		mascara = sobelHorizontal
+					
+		print(mascara)
+		
+		aux = mascara[0].copy()
+		mascara[0] = mascara[2].copy()
+		mascara[2] = aux.copy()
+		
+		
+		for i in range(0,len(mascara)):
+			aux = mascara[i][0].copy()
+			mascara[i][0] = mascara[i][2].copy()
+			mascara[i][2] = aux.copy()
 	
+	print(mascara)
+							
 	imagemConvolucionada = imagem.copy()
 	
 	limiteAlturaMascara = math.floor(len(mascara)/2)
 	limiteLarguraMascara = math.floor(len(mascara[0])/2)
 	
-	sinal = imagem.copy()
-	#sinal = np.array([[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]]])
-	
-	#sinal = [[],[]]
-	
-	"""for i in range(len(mascara)):
-		for j in range(len(mascara[0])):
-			sinal[i][j] = np.append(sinal[i][j], [0,0,0])
-	"""
+	sinal = np.zeros((len(mascara), len(mascara[0]), 3), dtype = int)
 	
 	resultadoR = 0
 	resultadoG = 0
@@ -256,6 +336,7 @@ def convolucao(imagem, mascara, larguraImagem, alturaImagem):
 			for m in range(len(mascara)):
 				for n in range(len(mascara[0])):
 					sinal[m][n] = imagem[i - contAltura][j - contLargura]
+					#print(sinal[m][n])
 					contLargura -= 1
 				contAltura -= 1
 				contLargura = limiteLarguraMascara
@@ -266,16 +347,126 @@ def convolucao(imagem, mascara, larguraImagem, alturaImagem):
 					resultadoG += sinal[m][n][1] * mascara[m][n]
 					resultadoB += sinal[m][n][2] * mascara[m][n]
 					
-			imagemConvolucionada[i][j][0] = resultadoR
-			imagemConvolucionada[i][j][1] = resultadoG
-			imagemConvolucionada[i][j][2] = resultadoB
+					
+			imagemConvolucionada[i][j][0] = int(resultadoR)
+			imagemConvolucionada[i][j][1] = int(resultadoG)
+			imagemConvolucionada[i][j][2] = int(resultadoB)
+
+			resultadoR = 0
+			resultadoG = 0
+			resultadoB = 0
 	
 	return imagemConvolucionada
 
 ##########################################################################################
-def filtroMediana():
-	pass
+def filtroMediana(imagem, larguraImagem, alturaImagem, m, n):
+	
+	imagemFiltrada = imagem.copy()
+	
+	limiteAltura = math.floor(m/2)
+	limiteLargura = math.floor(n/2)
+	
+	sinalR = np.zeros((m, n), dtype = int)
+	sinalG = np.zeros((m, n), dtype = int)
+	sinalB = np.zeros((m, n), dtype = int)
+	
+	soma = 0
+	mediana = 0
+	
+	for i in range(limiteAltura, alturaImagem - limiteAltura):
+		for j in range(limiteLargura, larguraImagem - limiteLargura):
+	
+			contAltura = limiteAltura
+			contLargura = limiteLargura
+			
+			for k in range(m):
+				for l in range(n):
+					sinalR[k][l] = imagem[i - contAltura][j - contLargura][0]
+					contLargura -= 1
+				contAltura -= 1
+				contLargura = limiteLargura
+				
+			sinalOrdenadoR = np.sort(sinalR, axis = None)
+			
+			if len(sinalOrdenadoR)%2 == 0:
+				soma += sinalOrdenadoR[len(sinalOrdenadoR)/2]
+				soma += sinalOrdenadoR[(len(sinalOrdenadoR)/2) - 1]
+				mediana = int(soma/2)
+			else:
+				mediana = sinalOrdenadoR[math.floor(len(sinalOrdenadoR)/2)]
+	
+			imagemFiltrada[i][j][0] = mediana
+			
+			mediana = 0
+			soma = 0
+			contAltura = limiteAltura
+			contLargura = limiteLargura
+			
+			for k in range(m):
+				for l in range(n):
+					sinalG[k][l] = imagem[i - contAltura][j - contLargura][1]
+					contLargura -= 1
+				contAltura -= 1
+				contLargura = limiteLargura
+				
+			sinalOrdenadoG = np.sort(sinalG, axis = None)
+			
+			if len(sinalOrdenadoG)%2 == 0:
+				soma += sinalOrdenadoG[len(sinalOrdenadoG)/2]
+				soma += sinalOrdenadoG[(len(sinalOrdenadoG)/2) - 1]
+				mediana = int(soma/2)
+			else:
+				mediana = sinalOrdenadoG[math.floor(len(sinalOrdenadoG)/2)]
+	
+			imagemFiltrada[i][j][1] = mediana
+		
+			mediana = 0
+			soma = 0
+			contAltura = limiteAltura
+			contLargura = limiteLargura
+			
+			for k in range(m):
+				for l in range(n):
+					sinalB[k][l] = imagem[i - contAltura][j - contLargura][2]
+					contLargura -= 1
+				contAltura -= 1
+				contLargura = limiteLargura
+				
+			sinalOrdenadoB = np.sort(sinalB, axis = None)
+			
+			if len(sinalOrdenadoB)%2 == 0:
+				soma += sinalOrdenadoB[len(sinalOrdenadoB)/2]
+				soma += sinalOrdenadoB[(len(sinalOrdenadoB)/2) - 1]
+				mediana = int(soma/2)
+			else:
+				mediana = sinalOrdenadoB[math.floor(len(sinalOrdenadoB)/2)]
+	
+			
+			imagemFiltrada[i][j][2] = mediana
+			
+	return imagemFiltrada
 
 ##########################################################################################
-def limiarizacao():
-	pass
+def limiarizacao(imagem, largura, altura, limiar):
+	
+	imagemLimiarizada = imagem.copy()
+	
+	for i in range(altura):
+		for j in range(largura):
+			
+			menor = imagem[i][j][0]
+			if imagem[i][j][1] < menor:
+				menor = imagem[i][j][1]
+			if imagem[i][j][2] < menor:
+				menor = imagem[i][j][2]
+			
+			if menor <= limiar:
+				imagemLimiarizada[i][j][0] = 0
+				imagemLimiarizada[i][j][1] = 0
+				imagemLimiarizada[i][j][2] = 0
+			else:
+				imagemLimiarizada[i][j][0] = 255
+				imagemLimiarizada[i][j][1] = 255
+				imagemLimiarizada[i][j][2] = 255
+	
+	return imagemLimiarizada

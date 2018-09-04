@@ -23,13 +23,36 @@ def main():
 	
 	#RGB YIQ
 	"""
-	b = mp.RGBtoYIQ(a, largura, altura)
-	c = mp.YIQtoRGB(b, largura, altura, a)
-	print(np.array_equal(a,b))
+	b = a.copy()
+	pixel = b[0][0]
+	pixel[0] = 0
+	pixel[1] = 0
+	pixel[2] = 0
+	print(pixel)
+	"""
 	
+	
+	b = mp.RGBtoYIQ(a, largura, altura)
+	#pixel = b[0][0]
+	#print(pixel)
+	c = mp.YIQtoRGB(b, largura, altura, a)
+	
+	
+	"""
+	for i in range(largura):
+		for j in range(altura):
+			print(c[i][j])
+	"""
+	
+	#pixel = b[0][0]
+	#print(pixel)
+	#print(np.array_equal(a,b))
+	
+	
+	#imagem2 = mp.arrayToImagem(mp.YIQtoRGB(mp.RGBtoYIQ(a, largura, altura), largura, altura, a))
 	imagem2 = mp.arrayToImagem(c)
 	mp.exibeImagem(imagem2)
-	"""
+	
 	
 	#banda individual
 	"""
@@ -42,7 +65,15 @@ def main():
 	
 	#Monocromatica
 	"""
-	arrayMono = mp.monocromatica(a, largura, altura)
+	arrayMono = mp.monocromatica(a, largura, altura, 'r')
+	imagemMono = mp.arrayToImagem(arrayMono)
+
+	mp.exibeImagem(imagemMono)
+	arrayMono = mp.monocromatica(a, largura, altura, 'g')
+	imagemMono = mp.arrayToImagem(arrayMono)
+
+	mp.exibeImagem(imagemMono)
+	arrayMono = mp.monocromatica(a, largura, altura, 'b')
 	imagemMono = mp.arrayToImagem(arrayMono)
 
 	mp.exibeImagem(imagemMono)
@@ -65,9 +96,26 @@ def main():
 	"""
 	
 	#Convolução Media
-	arrayConvolucao = mp.convolucao(a, "media", largura, altura)
+	"""
+	arrayConvolucao = mp.convolucao(a, "sobelHorizontal", largura, altura)
 	imagemConvolucionada = mp.arrayToImagem(arrayConvolucao)
 	mp.exibeImagem(imagemConvolucionada)
+	"""
+	
+	#Filtro Mediana
+	"""
+	arrayMediana = mp.filtroMediana(a, largura, altura, 3, 3)
+	imagemFiltrada = mp.arrayToImagem(arrayMediana)
+	mp.exibeImagem(imagemFiltrada)
+	"""
+	
+	#Limiarização
+	"""
+	arrayLimiarizacao = mp.limiarizacao(a, largura, altura, 100)
+	imagemLimiarizada = mp.arrayToImagem(arrayLimiarizacao)
+	mp.exibeImagem(imagemLimiarizada)
+	"""
+
 
 
 if __name__ == '__main__':
