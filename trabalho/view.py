@@ -25,6 +25,7 @@ def main():
 	arrayImagemModificada = None
 
 	run = True
+	imagemModificaIsRGB = True
 
 	while run:
 		print('\t\t\t\tMenu\n')
@@ -44,33 +45,16 @@ def main():
 		opcao = int(input('Escolha a opção: '))
 
 		if opcao == 1:
-			'''arrayImagemModificada = arrayImagemOriginal.copy()
-			pixel = arrayImagemModificada[0][0]
-			pixel[0] = 100
-			pixel[1] = 0
-			pixel[2] = 0
-			print(pixel)'''
-
-			arrayImagemModificada = mp.RGBtoYIQ(arrayImagemOriginal, largura, altura)
-			'''pixel = arrayImagemModificada[0][0]
-			print(pixel)'''
-			
-			#imagemModificada = mp.arrayToImagem(arrayImagemModificada)
-			#mp.exibeImagem(imagemModificada)
+			arrayImagemModificada = mp.RGBtoYIQ(arrayImagemOriginal, largura, altura)			
+			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
+			mp.exibeImagem(imagemModificada)
+			imagemModificaIsRGB = False
 
 		elif opcao == 2:
-			pixel = arrayImagemModificada[0][0]
-			#print(pixel)
-
 			arrayImagemModificada = mp.YIQtoRGB(arrayImagemModificada, largura, altura)
-	
-			#pixel = arrayImagemModificada[0][0]
-			#print(pixel)
-
 			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
-
-			#print(arrayImagemModificada[0][0])
 			mp.exibeImagem(imagemModificada)
+			imagemModificaIsRGB = True
 		
 		elif opcao == 3:
 			banda = input('Para qual banda? ')
@@ -85,23 +69,28 @@ def main():
 			mp.exibeImagem(imagemModificada)
 		
 		elif opcao == 5: #Negativo
-			arrayImagemModificada = mp.negativoRGB(arrayImagemOriginal, largura, altura)
-			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
-			mp.exibeImagem(imagemModificada)
+			if imagemModificaIsRGB is True:
+				arrayImagemModificada = mp.negativoRGB(arrayImagemOriginal, largura, altura)
+				imagemModificada = mp.arrayToImagem(arrayImagemModificada)
+				mp.exibeImagem(imagemModificada)
 			
-			arrayImagemModificada1 = mp.negativoYIQ(arrayImagemModificada, largura, altura)
-			imagemModificada1 = mp.arrayToImagem(arrayImagemModificada1)
-			mp.exibeImagem(imagemModificada1)
+			else:
+				arrayImagemModificada = mp.negativoYIQ(arrayImagemModificada, largura, altura)
+				imagemModificada = mp.arrayToImagem(arrayImagemModificada)
+				mp.exibeImagem(imagemModificada)
 
 		elif opcao == 6: #BrilhoAditivo
 			fator = int(input('Qual o fator de adição? '))
-			arrayImagemModificada = mp.controleDeBrilhoAditivoRGB(arrayImagemOriginal, largura, altura, fator)
-			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
-			mp.exibeImagem(imagemModificada)
+
+			if imagemModificaIsRGB is True:
+				arrayImagemModificada = mp.controleDeBrilhoAditivoRGB(arrayImagemOriginal, largura, altura, fator)
+				imagemModificada = mp.arrayToImagem(arrayImagemModificada)
+				mp.exibeImagem(imagemModificada)
 			
-			arrayImagemModificada1 = mp.controleDeBrilhoAditivoYIQ(arrayImagemModificada, largura, altura, fator)
-			imagemModificada1 = mp.arrayToImagem(arrayImagemModificada1)
-			mp.exibeImagem(imagemModificada1)
+			else:
+				arrayImagemModificada = mp.controleDeBrilhoAditivoYIQ(arrayImagemModificada, largura, altura, fator)
+				imagemModificada = mp.arrayToImagem(arrayImagemModificada)
+				mp.exibeImagem(imagemModificada)
 			
 
 		elif opcao == 7: #Brilho Multiplicativo
@@ -152,6 +141,7 @@ def main():
 		elif opcao == 11:
 			print('Salvando...')
 			mp.salvaImagem(imagemModificada, caminhoArquivoOriginal)
+
 		elif opcao == 12:
 			print('Encerrando...')
 			run = False

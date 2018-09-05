@@ -103,11 +103,8 @@ def YIQtoRGB(imagemYIQ, largura, altura):
 			else:
 				imagemRGB[i][j][2] = valor
 
-				
-	
 	imagemRGB = np.uint8(imagemRGB)
-	print("Tipo" ,imagemRGB.dtype)
-			
+	#print("Tipo" ,imagemRGB.dtype)
 	
 	return imagemRGB
 	
@@ -193,10 +190,7 @@ def negativoYIQ(imagem, largura, altura):
 	
 	for i in range(altura):
 		for j in range(largura):
-		
 			imagemNegativa[i][j][0] = 255 - imagem[i][j][0]
-			
-	imagemNegativa = YIQtoRGB(imagemNegativa, largura, altura)
 	
 	return imagemNegativa
 
@@ -266,8 +260,6 @@ def controleDeBrilhoAditivoYIQ(imagem, largura, altura, c):
 				imagemResultante[i][j][0] = 0
 			else:
 				imagemResultante[i][j][0] += c
-				
-	imagemResultante = YIQtoRGB(imagemResultante, largura, altura)
 
 	return imagemResultante
 
