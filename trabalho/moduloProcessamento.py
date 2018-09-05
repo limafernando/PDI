@@ -201,7 +201,8 @@ def negativoYIQ(imagem, largura, altura):
 	return imagemNegativa
 
 ##########################################################################################
-def controleDeBrilhoAditivo(imagem, largura, altura, c):
+def controleDeBrilhoAditivoRGB(imagem, largura, altura, c):
+
 	imagemResultante = imagem.copy()
 
 	if type(c) != int:
@@ -240,6 +241,33 @@ def controleDeBrilhoAditivo(imagem, largura, altura, c):
 				imagemResultante[i][j][2] = 0
 			else:
 				imagemResultante[i][j][2] += c
+
+	return imagemResultante
+	
+##########################################################################################
+def controleDeBrilhoAditivoYIQ(imagem, largura, altura, c):
+
+	imagemResultante = imagem.copy()
+
+	if type(c) != int:
+		c = int(c)
+
+	#a biblioteca pil percorre de maneira circular
+	#255+1 = 0
+	for i in range(altura):
+		for j in range(largura):
+			#somando em Y
+			valor = imagemResultante[i][j][0].copy()
+			limite = valor + c
+			
+			if limite > 255:
+				imagemResultante[i][j][0] = 255
+			elif limite < 0:
+				imagemResultante[i][j][0] = 0
+			else:
+				imagemResultante[i][j][0] += c
+				
+	imagemResultante = YIQtoRGB(imagemResultante, largura, altura)
 
 	return imagemResultante
 

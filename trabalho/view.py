@@ -88,15 +88,21 @@ def main():
 			arrayImagemModificada = mp.negativoRGB(arrayImagemOriginal, largura, altura)
 			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
 			mp.exibeImagem(imagemModificada)
+			
 			arrayImagemModificada1 = mp.negativoYIQ(arrayImagemModificada, largura, altura)
 			imagemModificada1 = mp.arrayToImagem(arrayImagemModificada1)
 			mp.exibeImagem(imagemModificada1)
 
-		elif opcao == 6:
+		elif opcao == 6: #BrilhoAditivo
 			fator = int(input('Qual o fator de adição? '))
-			arrayImagemModificada = mp.controleDeBrilhoAditivo(arrayImagemOriginal, largura, altura, fator)
+			arrayImagemModificada = mp.controleDeBrilhoAditivoRGB(arrayImagemOriginal, largura, altura, fator)
 			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
 			mp.exibeImagem(imagemModificada)
+			
+			arrayImagemModificada1 = mp.controleDeBrilhoAditivoYIQ(arrayImagemModificada, largura, altura, fator)
+			imagemModificada1 = mp.arrayToImagem(arrayImagemModificada1)
+			mp.exibeImagem(imagemModificada1)
+			
 
 		elif opcao == 7:
 			fator = float(input('Qual o fator de multiplicação? '))
