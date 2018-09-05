@@ -272,7 +272,7 @@ def controleDeBrilhoAditivoYIQ(imagem, largura, altura, c):
 	return imagemResultante
 
 ##########################################################################################
-def controleDeBrilhoMultiplicativo(imagem, largura, altura, c):
+def controleDeBrilhoMultiplicativoRGB(imagem, largura, altura, c):
 	imagemResultante = imagem.copy()
 	
 	if c < 0:
@@ -306,9 +306,34 @@ def controleDeBrilhoMultiplicativo(imagem, largura, altura, c):
 
 	
 	return imagemResultante
+	
+##########################################################################################
+def controleDeBrilhoMultiplicativoYIQ(imagem, largura, altura, c):
+
+	imagemResultante = imagem.copy()
+	
+	if c < 0:
+		return YIQtoRGB(imagemResultante, largura, altura) #Se o c for inválido, será retornado a imagem resultante só que convertida em RGB para a exibição
+
+	for i in range(altura):
+		for j in range(largura):
+		
+			#multiplicando em Y
+			
+			valor = imagemResultante[i][j][0].copy()
+			limite = valor * c
+			
+			if limite < 255:
+				imagemResultante[i][j][0] = limite
+			else:
+				imagemResultante[i][j][0] = 255
+
+	imagemResultante = YIQtoRGB(imagemResultante, largura, altura)
+	
+	return imagemResultante
 
 ##########################################################################################
-def convolucao(imagem, larguraImagem, alturaImagem, mascara):
+def convolucaoRGB(imagem, larguraImagem, alturaImagem, mascara):
 	
 	global media, sobelVertical, sobelHorizontal
 	
@@ -389,9 +414,89 @@ def convolucao(imagem, larguraImagem, alturaImagem, mascara):
 			resultadoB = 0
 	
 	return imagemConvolucionada
+	
+##########################################################################################
+def convolucaoYIQ(imagem, larguraImagem, alturaImagem, mascara):
+	
+	global media, sobelVertical, sobelHorizontal
+	
+							
+	if mascara == "media":
+		mascara = media
+							
+	elif mascara == "sobelVertical":
+		mascara = sobelVertical
+		
+		
+		aux = mascara[0].copy()
+		mascara[0] = mascara[2].copy()
+		mascara[2] = aux.copy()
+		
+							
+		for i in range(0,len(mascara)):
+			aux = mascara[i][0].copy()
+			mascara[i][0] = mascara[i][2].copy()
+			mascara[i][2] = aux.copy()
+	
+	elif mascara == "sobelHorizontal":
+		mascara = sobelHorizontal
+
+		
+		aux = mascara[0].copy()
+		mascara[0] = mascara[2].copy()
+		mascara[2] = aux.copy()
+		
+		
+		for i in range(0,len(mascara)):
+			aux = mascara[i][0].copy()
+			mascara[i][0] = mascara[i][2].copy()
+			mascara[i][2] = aux.copy()
+	
+							
+	imagemConvolucionada = imagem.copy()
+	
+	limiteAlturaMascara = math.floor(len(mascara)/2)
+	limiteLarguraMascara = math.floor(len(mascara[0])/2)
+
+	sinal = mascara.copy()
+
+
+	sinal = np.zeros((len(mascara), len(mascara[0]), 3), dtype = int)
+
+	
+	resultadoY = 0
+
+	
+	for i in range(limiteAlturaMascara, alturaImagem - limiteAlturaMascara):
+		for j in range(limiteLarguraMascara, larguraImagem - limiteLarguraMascara):
+			
+			contAltura = limiteAlturaMascara
+			contLargura = limiteLarguraMascara
+			
+			for m in range(len(mascara)):
+				for n in range(len(mascara[0])):
+					sinal[m][n] = imagem[i - contAltura][j - contLargura]
+					contLargura -= 1
+				contAltura -= 1
+				contLargura = limiteLarguraMascara
+				
+			for m in range(len(mascara)):
+				for n in range(len(mascara[0])):
+					resultadoY += sinal[m][n][0] * mascara[m][n]
+
+					
+					
+			imagemConvolucionada[i][j][0] = int(resultadoY)
+
+			resultadoY = 0
+	
+	
+	imagemConvolucionada = YIQtoRGB(imagemConvolucionada, larguraImagem, alturaImagem)
+	
+	return imagemConvolucionada
 
 ##########################################################################################
-def filtroMediana(imagem, larguraImagem, alturaImagem, m, n):
+def filtroMedianaRGB(imagem, larguraImagem, alturaImagem, m, n):
 	
 	imagemFiltrada = imagem.copy()
 	
@@ -476,10 +581,53 @@ def filtroMediana(imagem, larguraImagem, alturaImagem, m, n):
 			
 			imagemFiltrada[i][j][2] = mediana
 			
+			
+	return imagemFiltrada
+	
+##########################################################################################
+def filtroMedianaYIQ(imagem, larguraImagem, alturaImagem, m, n):
+	
+	imagemFiltrada = imagem.copy()
+	
+	limiteAltura = math.floor(m/2)
+	limiteLargura = math.floor(n/2)
+	
+	sinalY = np.zeros((m, n), dtype = int)
+	
+	soma = 0
+	mediana = 0
+	
+	for i in range(limiteAltura, alturaImagem - limiteAltura):
+		for j in range(limiteLargura, larguraImagem - limiteLargura):
+	
+			contAltura = limiteAltura
+			contLargura = limiteLargura
+			
+			for k in range(m):
+				for l in range(n):
+					sinalY[k][l] = imagem[i - contAltura][j - contLargura][0]
+					contLargura -= 1
+				contAltura -= 1
+				contLargura = limiteLargura
+				
+			sinalOrdenadoY = np.sort(sinalY, axis = None)
+			
+			if len(sinalOrdenadoY)%2 == 0:
+				soma += sinalOrdenadoY[len(sinalOrdenadoY)/2]
+				soma += sinalOrdenadoY[(len(sinalOrdenadoY)/2) - 1]
+				mediana = int(soma/2)
+			else:
+				mediana = sinalOrdenadoY[math.floor(len(sinalOrdenadoY)/2)]
+	
+			imagemFiltrada[i][j][0] = mediana
+			
+			
+	imagemFiltrada = YIQtoRGB(imagemFiltrada, larguraImagem, alturaImagem)
+	
 	return imagemFiltrada
 
 ##########################################################################################
-def limiarizacao(imagem, largura, altura, limiar, banda):
+def limiarizacaoRGB(imagem, largura, altura, limiar, banda):
 	
 	imagemLimiarizada = imagem.copy()
 	
@@ -527,4 +675,23 @@ def limiarizacao(imagem, largura, altura, limiar, banda):
 	
 	else:
 		return imagemLimiarizada
+		
+##########################################################################################
+def limiarizacaoYIQ(imagem, largura, altura, limiar):
+	
+	imagemLimiarizada = imagem.copy()
+	
+
+	for i in range(altura):
+		for j in range(largura):
+			if imagemLimiarizada[i][j][0] <= limiar:
+				imagemLimiarizada[i][j][0] = 0
+
+			else:
+				imagemLimiarizada[i][j][0] = 255
+
+	imagemLimiarizada = YIQtoRGB(imagemLimiarizada, largura, altura)
+				
+	return imagemLimiarizada
+	
 
