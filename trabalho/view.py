@@ -136,9 +136,9 @@ def main():
 
 		elif opcao == 10:
 			limiar = int(input('Qual é o limiar? '))
-			banda = input('Para qual banda? ')
 			
 			if imagemModificaIsRGB is True:
+				banda = input('Para qual banda? ')
 				arrayImagemModificada = mp.limiarizacaoRGB(arrayImagemOriginal, largura, altura, limiar, banda)
 				imagemModificada = mp.arrayToImagem(arrayImagemModificada)
 				mp.exibeImagem(imagemModificada)
