@@ -319,8 +319,6 @@ def controleDeBrilhoMultiplicativoYIQ(imagem, largura, altura, c):
 				imagemResultante[i][j][0] = limite
 			else:
 				imagemResultante[i][j][0] = 255
-
-	imagemResultante = YIQtoRGB(imagemResultante, largura, altura)
 	
 	return imagemResultante
 
@@ -482,9 +480,6 @@ def convolucaoYIQ(imagem, larguraImagem, alturaImagem, mascara):
 
 			resultadoY = 0
 	
-	
-	imagemConvolucionada = YIQtoRGB(imagemConvolucionada, larguraImagem, alturaImagem)
-	
 	return imagemConvolucionada
 
 ##########################################################################################
@@ -612,9 +607,6 @@ def filtroMedianaYIQ(imagem, larguraImagem, alturaImagem, m, n):
 				mediana = sinalOrdenadoY[math.floor(len(sinalOrdenadoY)/2)]
 	
 			imagemFiltrada[i][j][0] = mediana
-			
-			
-	imagemFiltrada = YIQtoRGB(imagemFiltrada, larguraImagem, alturaImagem)
 	
 	return imagemFiltrada
 
@@ -681,9 +673,5 @@ def limiarizacaoYIQ(imagem, largura, altura, limiar):
 
 			else:
 				imagemLimiarizada[i][j][0] = 255
-
-	imagemLimiarizada = YIQtoRGB(imagemLimiarizada, largura, altura)
 				
 	return imagemLimiarizada
-	
-
