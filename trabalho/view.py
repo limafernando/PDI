@@ -93,31 +93,50 @@ def main():
 				mp.exibeImagem(imagemModificada)
 			
 
-		elif opcao == 7:
+		elif opcao == 7: #Brilho Multiplicativo
 			fator = float(input('Qual o fator de multiplicação? '))
-			arrayImagemModificada = mp.controleDeBrilhoMultiplicativo(arrayImagemOriginal, largura, altura, fator)
+			arrayImagemModificada = mp.controleDeBrilhoMultiplicativoRGB(arrayImagemOriginal, largura, altura, fator)
 			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
 			mp.exibeImagem(imagemModificada)
+			
+			arrayImagemModificada1 = mp.controleDeBrilhoMultiplicativoYIQ(arrayImagemModificada, largura, altura, fator)
+			imagemModificada1 = mp.arrayToImagem(arrayImagemModificada1)
+			mp.exibeImagem(imagemModificada1)
 
-		elif opcao == 8:
+		elif opcao == 8: #Convolução
 			mascara = input('Qual é a máscara? ')
-			arrayImagemModificada = mp.convolucao(arrayImagemOriginal, largura, altura, mascara)
+			arrayImagemModificada = mp.convolucaoRGB(arrayImagemOriginal, largura, altura, mascara)
 			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
 			mp.exibeImagem(imagemModificada)
+			
+			arrayImagemModificada1 = mp.convolucaoYIQ(arrayImagemModificada, largura, altura, mascara)
+			imagemModificada1 = mp.arrayToImagem(arrayImagemModificada1)
+			mp.exibeImagem(imagemModificada1)
+			
 
-		elif opcao == 9:
+		elif opcao == 9: #Medianas
 			m = int(input('Qual é a qtd de linhas? '))
-			m = int(input('Qual é a qtd de colunas? '))
-			arrayImagemModificada = mp.filtroMediana(arrayImagemOriginal, largura, altura, m, n)
+			n = int(input('Qual é a qtd de colunas? '))
+			
+			arrayImagemModificada = mp.filtroMedianaRGB(arrayImagemOriginal, largura, altura, m, n)
 			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
 			mp.exibeImagem(imagemModificada)
+			
+			arrayImagemModificada1 = mp.filtroMedianaYIQ(arrayImagemModificada, largura, altura, m, n)
+			imagemModificada1 = mp.arrayToImagem(arrayImagemModificada1)
+			mp.exibeImagem(imagemModificada1)
 
 		elif opcao == 10:
 			limiar = int(input('Qual é o limiar? '))
 			banda = input('Para qual banda? ')
-			arrayImagemModificada = mp.limiarizacao(arrayImagemOriginal, largura, altura, limiar, banda)
+			
+			arrayImagemModificada = mp.limiarizacaoRGB(arrayImagemOriginal, largura, altura, limiar, banda)
 			imagemModificada = mp.arrayToImagem(arrayImagemModificada)
 			mp.exibeImagem(imagemModificada)
+			
+			arrayImagemModificada1 = mp.limiarizacaoYIQ(arrayImagemModificada, largura, altura, limiar)
+			imagemModificada1 = mp.arrayToImagem(arrayImagemModificada1)
+			mp.exibeImagem(imagemModificada1)
 
 		elif opcao == 11:
 			print('Salvando...')
