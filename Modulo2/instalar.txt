@@ -1,1 +1,6 @@
 pip3 install pydub
+
+"""
+	#Manipula os dados do áudio e salva
+	scipy.io.wavfile.write("audio.wav", int(rate*2), audioData)
+	"""
