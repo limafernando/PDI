@@ -5,6 +5,40 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy import fftpack
 
+def passaBaixa(dct):
+
+	dctFiltrada = dct.copy()
+	
+	for i in range(0, len(dctFiltrada)):
+		if abs(dctFiltrada[i]) < 12520:
+			dctFiltrada[i] = 0
+	
+	return dctFiltrada
+	
+def questao1(n, dct):
+	
+	dctFiltrada = dct.copy()
+	
+	listadct = dctFiltrada.tolist() 
+	indicesMax = []
+	
+	for i in range(0, len(listadct)):
+		listadct[i] = abs(listadct[i])
+		
+	aux = listadct.copy()
+	
+	for i in range(0,n):
+		indicesMax.append(listadct.index(max(aux)))
+		indiceAux = aux.index(max(aux))
+		aux.pop(indiceAux)
+	
+	for i in range(0, len(dctFiltrada)):
+		if i not in indicesMax:
+			dctFiltrada[i] = 0
+	
+	return dctFiltrada
+	
+	
 
 def main():
 	
@@ -15,7 +49,6 @@ def main():
 	print("Rate: ", rate)
 	print("Dados do audio: ", audioData)
 	print("Tamanho: ", len(audioData))
-	print(audioData.dtype)
 	
 	#Calcula uma variável tempo para utilizar no gráfico
 	tempo = np.arange(0, float(len(audioData)), 1) / rate
@@ -29,37 +62,11 @@ def main():
 	plt.show()
 	"""
 	
-	dct = fftpack.dct(audioData, norm = 'ortho')
-	dctFiltrada = dct.copy()
+	dct = fftpack.dct(audioData, norm = 'ortho') #Calcula a dct dos dados do áudio
 	
-	n = 50
+	dctFiltrada = questao1(50, dct)
+	#dctFiltrada = passaBaixa(dct)
 	
-	listadct = dctFiltrada.tolist()
-	aux = listadct.copy()
-	indicesMax = []
-	
-	for i in range(0, len(listadct)):
-		listadct[i] = abs(listadct[i])
-	
-	#print(listadct[0])
-	
-	for i in range(0,n):
-		indicesMax.append(listadct.index(max(aux)))
-		indiceAux = aux.index(max(aux))
-		aux.pop(indiceAux)
-	
-	for i in range(0, len(dctFiltrada)):
-		if i not in indicesMax:
-			dctFiltrada[i] = 0
-		else:
-			print(dctFiltrada[i])
-	
-	
-	"""
-	for i in range(0, len(dct)):
-		if abs(dct[i]) < 12520:
-			dctFiltrada[i] = 0
-	"""
 	
 	#Plota o gráfico
 	plt.figure(1)
