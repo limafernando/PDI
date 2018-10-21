@@ -1,10 +1,28 @@
+import numpy as np
 import scipy.io.wavfile
+from scipy import fftpack
 import pydub
 from pydub.playback import play
 import matplotlib.pyplot as plt
-import numpy as np
-from scipy import fftpack
 from PIL import Image
+
+def plota(data):
+	#Plota o gráfico
+	plt.figure('AudioData')
+	plt.plot(data, linewidth=0.1, alpha=1,color='blue')
+	plt.ylabel('Amplitude')
+	plt.show()
+
+def plotaDCTs(dct, dctFiltrada):
+	#Plota o gráfico
+	plt.figure('Domínio da Frequência')
+	plt.subplot(211)
+	plt.plot(dct, linewidth=0.1, alpha=1.0, color='blue')
+	plt.ylabel('Frequencia')
+	plt.subplot(212)
+	plt.plot(dctFiltrada, linewidth=0.1, alpha=1.0, color='blue')
+	plt.ylabel('Frequencia')
+	plt.show()
 
 def passaBaixa(dct):
 
@@ -16,8 +34,15 @@ def passaBaixa(dct):
 	
 	return dctFiltrada
 	
-def questao1(n, dct):
-	
+def questao1(n):
+
+	#Lê o arquivo wav: rate é a taxa de amostragem do áudio e audioData são os dados do áudio
+	rate, audioData = scipy.io.wavfile.read("audio.wav")
+
+	dct = fftpack.dct(audioData, norm = 'ortho') #Calcula a dct dos dados do áudio
+
+	plota(dct)
+
 	dctFiltrada = dct.copy()
 	
 	listadct = dctFiltrada.tolist() 
@@ -37,7 +62,13 @@ def questao1(n, dct):
 		if i not in indicesMax:
 			dctFiltrada[i] = 0
 	
-	return dctFiltrada
+	dctFiltrada = np.asarray(dctFiltrada)
+
+	novoAudio = fftpack.idct(dctFiltrada, norm = 'ortho')
+	
+	scipy.io.wavfile.write("audio1.wav", rate, novoAudio)
+
+	plotaDCTs(dct, dctFiltrada)
 	
 def questao2(n):
 
@@ -97,7 +128,12 @@ def questao2(n):
 	im.show()
 	
 	
-def questao3(c, dct):
+def questao3(c):
+
+	#Lê o arquivo wav: rate é a taxa de amostragem do áudio e audioData são os dados do áudio
+	rate, audioData = scipy.io.wavfile.read("audio.wav")
+
+	dct = fftpack.dct(audioData, norm = 'ortho') #Calcula a dct dos dados do áudio
 
 	dctFiltrada = dct.tolist()
 	
@@ -119,53 +155,49 @@ def questao3(c, dct):
 		
 	else:
 		pass
-
 		
 	dctFiltrada = np.asarray(dctFiltrada)
+
+	novoAudio = fftpack.idct(dctFiltrada, norm = 'ortho')
 	
-	return dctFiltrada 
+	scipy.io.wavfile.write("audio3.wav", rate, novoAudio)
+
+	plotaDCTs(dct, dctFiltrada)
 	
 def main():
 	
-	#Lê o arquivo wav: rate é a taxa de amostragem do áudio e audioData são os dados do áudio
-	rate, audioData = scipy.io.wavfile.read("audio.wav")
-	
-	questao2(65536)
-	
-	"""
+	print('\n\n1-Questão 1\n' 
+		'2-Questão 2\n'
+		'3-Questão 3\n')
+	op = int(input('Escolha a opção: '))
+
+	if op == 1:
+		n = int(input('\nIndique o número de frequências desejadas: '))
+		questao1(n)
+
+	elif op == 2:
+		n = int(input('\nIndique o número de frequências desejadas: '))
+		questao2(n)
+
+	elif op == 3:
+		c = int(input('\nIndique o deslocamento desejado: '))
+		questao3(c)
+	else:
+		print('\nTchau')
+
+
+if __name__ == '__main__':
+	main()
+
+
+'''
 	print("Rate: ", rate)
 	print("Dados do audio: ", audioData)
 	print("Tamanho: ", len(audioData))
-	"""
 	
-	#Calcula uma variável tempo para utilizar no gráfico
-	tempo = np.arange(0, float(len(audioData)), 1) / rate
 	
-	"""
-	#Plota o gráfico
-	plt.figure(1)
-	plt.plot(tempo, audioData, linewidth=0.1, alpha=1,color='blue')
-	plt.ylabel('Amplitude')
-	plt.show()
-	"""
 	
-	dct = fftpack.dct(audioData, norm = 'ortho') #Calcula a dct dos dados do áudio
-	
-	#dctFiltrada = questao1(50, dct)
 	#dctFiltrada = passaBaixa(dct)
-	#dctFiltrada = questao3(-75204, dct)
-	
-	
-	#Plota o gráfico
-	plt.figure(1)
-	plt.subplot(211)
-	plt.plot(tempo, dct, linewidth=0.1, alpha=1.0, color='blue')
-	plt.ylabel('Frequencia')
-	plt.subplot(212)
-	plt.plot(tempo, dctFiltrada, linewidth=0.1, alpha=1.0, color='blue')
-	plt.ylabel('Frequencia')
-	plt.show()
-	
 	
 	novoAudio = fftpack.idct(dctFiltrada, norm = 'ortho')
 	
@@ -176,5 +208,4 @@ def main():
 	
 	#Toca a música
 	#play(wav)
-	
-main()
+'''
