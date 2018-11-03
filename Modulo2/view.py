@@ -40,9 +40,11 @@ def questao1(n):
 	rate, audioData = scipy.io.wavfile.read("audio.wav")
 
 	dct = fftpack.dct(audioData, norm = 'ortho') #Calcula a dct dos dados do áudio
+	
+	#plota(audioData)
 
-	plota(dct)
-
+	print(type(audioData[0]))
+	
 	dctFiltrada = dct.copy()
 	
 	listadct = dctFiltrada.tolist() 
@@ -58,16 +60,25 @@ def questao1(n):
 		indiceAux = aux.index(max(aux))
 		aux.pop(indiceAux)
 	
+	dctFiltrada = dct.copy()
+	
 	for i in range(0, len(dctFiltrada)):
 		if i not in indicesMax:
 			dctFiltrada[i] = 0
 	
 	dctFiltrada = np.asarray(dctFiltrada)
 
+	
 	novoAudio = fftpack.idct(dctFiltrada, norm = 'ortho')
+	
+	novoAudio = novoAudio.astype("int16")
+
+	print(type(novoAudio[0]))
 	
 	scipy.io.wavfile.write("audio1.wav", rate, novoAudio)
 
+	#plota(novoAudio)
+	
 	plotaDCTs(dct, dctFiltrada)
 	
 def questao2(n):
@@ -75,7 +86,8 @@ def questao2(n):
 	imagem = Image.open("lena.bmp")
 	imagem.show()
 	imagem = np.asarray(imagem)
-	print(imagem)
+	
+	#print(type(imagem[0][0]))
 	
 	rc = len(imagem)*len(imagem[0]) #linha coluna
 	
@@ -83,11 +95,10 @@ def questao2(n):
 	
 	dct = fftpack.dct(fftpack.dct(imagem.T, norm = 'ortho').T, norm = 'ortho') #Calcula a dct dos dados do áudio
 	
-	"""
+	
 	im = Image.fromarray(dct)
 	
 	im.show()
-	"""
 	
 	listadct = dct.copy()
 
@@ -121,7 +132,14 @@ def questao2(n):
 				
 	dctFiltrada = np.asarray(listadct)	
 	
+	im = Image.fromarray(dctFiltrada)
+	im.show()
+	
 	idct = fftpack.idct(fftpack.idct(dctFiltrada.T, norm = 'ortho').T, norm = 'ortho')
+	
+	#idct = idct.astype("uint8")
+	
+	#print(type(idct[0][0]))
 	
 	im = Image.fromarray(idct)
 	
@@ -160,6 +178,8 @@ def questao3(c):
 
 	novoAudio = fftpack.idct(dctFiltrada, norm = 'ortho')
 	
+	novoAudio = novoAudio.astype("int16")
+	
 	scipy.io.wavfile.write("audio3.wav", rate, novoAudio)
 
 	plotaDCTs(dct, dctFiltrada)
@@ -194,8 +214,6 @@ if __name__ == '__main__':
 	print("Rate: ", rate)
 	print("Dados do audio: ", audioData)
 	print("Tamanho: ", len(audioData))
-	
-	
 	
 	#dctFiltrada = passaBaixa(dct)
 	
