@@ -8,7 +8,7 @@ from PIL import Image
 
 def plota(data):
 	#Plota o gráfico
-	plt.figure('AudioData')
+	plt.figure('Data')
 	plt.plot(data, linewidth=0.1, alpha=1,color='blue')
 	plt.ylabel('Amplitude')
 	plt.show()
@@ -38,6 +38,8 @@ def questao1(n):
 
 	#Lê o arquivo wav: rate é a taxa de amostragem do áudio e audioData são os dados do áudio
 	rate, audioData = scipy.io.wavfile.read("audio.wav")
+
+	plota(audioData)
 
 	dct = fftpack.dct(audioData, norm = 'ortho') #Calcula a dct dos dados do áudio
 	
